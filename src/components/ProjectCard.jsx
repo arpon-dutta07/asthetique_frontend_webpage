@@ -23,12 +23,12 @@ function ProjectCard({ image, title, gridClass = '' }) {
       {/* Content Overlay */}
       <div className="relative z-10 flex justify-between items-center w-full">
         {/* Left: Project Title */}
-        <p className="text-brand-white font-medium text-sm md:text-base leading-none transition-transform duration-300 group-hover:-translate-y-1">
+        <p className="text-[#F2F0EB] font-medium text-sm md:text-base leading-none transition-transform duration-300 group-hover:-translate-y-1">
           {title}
         </p>
 
         {/* Right: View Project Pill */}
-        <div className="flex items-center gap-1.5 bg-brand-white/10 backdrop-blur-md text-brand-white border border-white/10 px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 group-hover:bg-brand-white group-hover:text-brand-black group-hover:border-brand-white">
+        <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md text-[#F2F0EB] border border-white/10 px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 group-hover:bg-[#F2F0EB] group-hover:text-[#161513] group-hover:border-[#F2F0EB]">
           <span>View Project</span>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 

@@ -20,7 +20,7 @@ function CategoryCard({ image, label, gridClass = '' }) {
       </div>
 
       {/* Centered Category Text */}
-      <span className="relative z-10 text-brand-white font-semibold text-xs md:text-sm tracking-widest uppercase transition-transform duration-300 group-hover:scale-105">
+      <span className="relative z-10 text-[#F2F0EB] font-semibold text-xs md:text-sm tracking-widest uppercase transition-transform duration-300 group-hover:scale-105">
         {label}
       </span>
     </motion.div>

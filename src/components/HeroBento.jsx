@@ -135,19 +135,19 @@ function HeroBento() {
         className="col-span-1 md:col-span-2 lg:col-span-12 relative h-[380px] md:h-[460px] lg:h-[500px] overflow-visible z-20 group"
         variants={cardVariants}
       >
-        {/* Logo Card (Positions absolutely in the top-left pocket) */}
+        {/* Logo Card (Positions absolutely in the top-left pocket - Dark charcoal) */}
         <div 
-          className={`absolute bg-brand-dark border border-white/5 flex items-center justify-center transition-all duration-300 z-30 ${
+          className={`absolute bg-[#161513] border border-black/5 flex items-center justify-center transition-all duration-300 z-30 ${
             isMobile 
               ? 'top-4 left-4 w-12 h-12 rounded-xl' 
               : 'top-0 left-0 w-20 h-20 rounded-3xl'
           }`}
         >
-          <div className={`bg-brand-black border border-white/10 flex items-center justify-center shadow-inner ${
+          <div className={`bg-[#22201C] border border-white/5 flex items-center justify-center shadow-inner ${
             isMobile ? 'w-8 h-8 rounded-lg' : 'w-12 h-12 rounded-xl'
           }`}>
             <svg 
-              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-brand-white`} 
+              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-[#F2F0EB]`} 
               fill="currentColor" 
               viewBox="0 0 24 24"
             >
@@ -156,9 +156,9 @@ function HeroBento() {
           </div>
         </div>
 
-        {/* Hamburger Menu (Positions absolutely in the top-right pocket) */}
+        {/* Hamburger Menu (Positions absolutely in the top-right pocket - Dark charcoal) */}
         <div 
-          className={`absolute bg-brand-dark border border-white/5 flex items-center justify-center transition-all duration-300 z-30 ${
+          className={`absolute bg-[#161513] border border-black/5 flex items-center justify-center transition-all duration-300 z-30 ${
             isMobile 
               ? 'top-4 right-4 w-12 h-12 rounded-xl' 
               : 'top-0 right-0 w-20 h-20 rounded-3xl'
@@ -166,7 +166,7 @@ function HeroBento() {
         >
           <button 
             aria-label="Menu"
-            className={`bg-brand-black border border-white/10 rounded-full flex items-center justify-center text-brand-white transition-all duration-300 hover:bg-brand-white hover:text-brand-black hover:border-brand-white ${
+            className={`bg-[#22201C] border border-white/5 rounded-full flex items-center justify-center text-[#F2F0EB] transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] ${
               isMobile ? 'w-8 h-8' : 'w-12 h-12'
             }`}
           >
@@ -200,13 +200,13 @@ function HeroBento() {
           </div>
         </div>
 
-        {/* Dynamic Curved Outline/Border Overlay */}
+        {/* Dynamic Curved Outline/Border Overlay - Soft dark concrete color */}
         {width > 0 && (
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
             <path 
               d={pathD} 
               fill="none" 
-              stroke="rgba(255,255,255,0.08)" 
+              stroke="rgba(22,21,19,0.08)" 
               strokeWidth="1.5" 
             />
           </svg>
@@ -221,7 +221,7 @@ function HeroBento() {
       
       {/* 3. HEADING + CTA CARD */}
       <motion.div 
-        className="col-span-1 md:col-span-2 lg:col-span-5 lg:row-span-2 bg-brand-dark border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between gap-8 h-full shadow-[0_15px_40px_rgba(0,0,0,0.4)]"
+        className="col-span-1 md:col-span-2 lg:col-span-5 lg:row-span-2 bg-brand-dark border border-black/5 rounded-[2rem] p-8 md:p-10 flex flex-col justify-between gap-8 h-full shadow-[0_15px_40px_rgba(22,21,19,0.05)]"
         variants={cardVariants}
         whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300 }}
@@ -241,19 +241,19 @@ function HeroBento() {
         {/* CTA Button and Social Icons */}
         <div className="flex flex-col gap-8">
           <div>
-            <button className="relative overflow-hidden inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-brand-white bg-brand-black text-brand-white text-xs font-semibold tracking-wider transition-all duration-300 hover:bg-brand-white hover:text-brand-black uppercase">
+            <button className="relative overflow-hidden inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-[#161513] bg-[#161513] text-[#F2F0EB] text-xs font-semibold tracking-wider transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] uppercase">
               BOOK CONSULTATION
             </button>
           </div>
 
           {/* Social Icons Row */}
-          <div className="flex items-center gap-3 border-t border-white/5 pt-6">
+          <div className="flex items-center gap-3 border-t border-black/5 pt-6">
             {/* Instagram */}
             <motion.a 
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-full border border-white/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-white/20"
+              className="w-10 h-10 rounded-full border border-black/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-black/10"
               variants={socialVariants}
               whileHover="hover"
             >
@@ -267,7 +267,7 @@ function HeroBento() {
               href="https://x.com"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-full border border-white/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-white/20"
+              className="w-10 h-10 rounded-full border border-black/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-black/10"
               variants={socialVariants}
               whileHover="hover"
             >
@@ -281,7 +281,7 @@ function HeroBento() {
               href="https://facebook.com"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-full border border-white/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-white/20"
+              className="w-10 h-10 rounded-full border border-black/5 bg-brand-black flex items-center justify-center text-brand-gray transition-colors duration-300 hover:text-brand-white hover:border-black/10"
               variants={socialVariants}
               whileHover="hover"
             >

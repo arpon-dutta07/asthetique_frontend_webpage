@@ -148,8 +148,8 @@ function BentoSections() {
   return (
     <div className="flex flex-col gap-32 w-full mt-24 pb-20">
       
-      {/* ----------------- SERVICES SECTION (Premium Typographic Reveal & Custom Mask ClipPath) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-white/5 pt-20">
+      {/* ----------------- SERVICES SECTION (Interactive Split Screen Layout) ----------------- */}
+      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
             01 // SERVICES SHOWCASE
@@ -161,17 +161,17 @@ function BentoSections() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Typographic Services list */}
-          <div className="lg:col-span-6 flex flex-col w-full border-b border-white/5 lg:border-b-0">
+          <div className="lg:col-span-6 flex flex-col w-full border-b border-black/5 lg:border-b-0">
             {SERVICES_DATA.map((service, index) => (
               <button
                 key={service.id}
                 onMouseEnter={() => setActiveService(index)}
                 onClick={() => setActiveService(index)}
-                className={`py-8 text-left border-t border-white/5 flex flex-col gap-2 transition-all duration-500 w-full outline-none focus:outline-none relative group`}
+                className={`py-8 text-left border-t border-black/5 flex flex-col gap-2 transition-all duration-500 w-full outline-none focus:outline-none relative group`}
               >
                 {/* Horizontal sliding underline on hover */}
                 <div 
-                  className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-brand-white/80 origin-left transition-transform duration-500 ease-out ${
+                  className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] origin-left transition-transform duration-500 ease-out ${
                     activeService === index ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'
                   }`} 
                 />
@@ -183,13 +183,13 @@ function BentoSections() {
                     <div className="flex items-center gap-4">
                       <span className="font-mono text-xs text-brand-gray/50">{service.id}</span>
                       <span className={`text-[9px] tracking-widest uppercase font-bold transition-colors duration-500 ${
-                        activeService === index ? 'text-brand-white' : 'text-brand-gray/30'
+                        activeService === index ? 'text-brand-white' : 'text-brand-gray/40'
                       }`}>
                         {service.category}
                       </span>
                     </div>
                     <h3 className={`text-xl md:text-3xl font-bold tracking-tight transition-colors duration-500 ${
-                      activeService === index ? 'text-brand-white' : 'text-brand-gray/40'
+                      activeService === index ? 'text-brand-white' : 'text-brand-white/40'
                     }`}>
                       {service.title}
                     </h3>
@@ -218,7 +218,7 @@ function BentoSections() {
           {/* Right Column: Premium Image Mask Reveal & Details */}
           <div className="lg:col-span-6 flex flex-col gap-8 relative lg:sticky lg:top-12 w-full">
             {/* Image Container with Inset Mask ClipPath */}
-            <div className="relative rounded-[2.5rem] overflow-hidden aspect-video md:aspect-[16/10] bg-brand-dark shadow-[0_25px_60px_rgba(0,0,0,0.7)] border border-white/5">
+            <div className="relative rounded-[2.5rem] overflow-hidden aspect-video md:aspect-[16/10] bg-brand-dark shadow-[0_25px_60px_rgba(22,21,19,0.08)] border border-black/5">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeService}
@@ -231,7 +231,7 @@ function BentoSections() {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-transparent to-transparent pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/20 via-transparent to-transparent pointer-events-none z-10" />
             </div>
 
             {/* Dynamic Text Details */}
@@ -254,7 +254,7 @@ function BentoSections() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.08, type: "spring", stiffness: 100 }}
-                    className="text-[9px] tracking-widest text-brand-white bg-brand-white/5 border border-white/10 px-4 py-2 rounded-full uppercase font-medium"
+                    className="text-[9px] tracking-widest text-brand-white bg-black/5 border border-black/10 px-4 py-2 rounded-full uppercase font-medium"
                   >
                     {tag}
                   </motion.span>
@@ -267,7 +267,7 @@ function BentoSections() {
 
 
       {/* ----------------- PROCESS SECTION (Interactive Progress Timeline with Viewport Trigger) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-white/5 pt-20">
+      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
             02 // CREATIVE JOURNEY
@@ -298,7 +298,7 @@ function BentoSections() {
               variants={scrollRevealVariants}
             >
               {/* Step counter and progress line */}
-              <div className="flex items-baseline justify-between border-b border-white/10 pb-4 relative overflow-hidden">
+              <div className="flex items-baseline justify-between border-b border-black/10 pb-4 relative overflow-hidden">
                 <span className="font-serif italic text-4xl text-brand-white group-hover:text-brand-gray transition-colors duration-300">
                   {proc.step}
                 </span>
@@ -307,7 +307,7 @@ function BentoSections() {
                 </span>
                 
                 {/* Horizontal sliding underline on hover */}
-                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-brand-white origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
               </div>
 
               {/* Step content */}
@@ -325,8 +325,8 @@ function BentoSections() {
       </section>
 
 
-      {/* ----------------- PROJECTS GALLERY SECTION (Art-Book Offset Layout with Zoom & Text Expansion) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-white/5 pt-20">
+      {/* ----------------- PROJECTS GALLERY SECTION (Art-Book Offset Layout) ----------------- */}
+      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
             03 // EDITORIAL ARCHIVE
@@ -351,13 +351,13 @@ function BentoSections() {
               variants={scrollRevealVariants}
             >
               {/* Outer image holder with scale overflow-hidden */}
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/5">
+              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
                 <img
                   src={GALLERY_DATA[0].image}
                   alt={GALLERY_DATA[0].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/20 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 {/* Text letters breathe/expand on card hover */}
@@ -376,13 +376,13 @@ function BentoSections() {
               viewport={{ once: true, margin: "-100px" }}
               variants={scrollRevealVariants}
             >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/5">
+              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
                 <img
                   src={GALLERY_DATA[2].image}
                   alt={GALLERY_DATA[2].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/20 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
@@ -404,13 +404,13 @@ function BentoSections() {
               viewport={{ once: true, margin: "-100px" }}
               variants={scrollRevealVariants}
             >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/5">
+              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
                 <img
                   src={GALLERY_DATA[1].image}
                   alt={GALLERY_DATA[1].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/20 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
@@ -428,13 +428,13 @@ function BentoSections() {
               viewport={{ once: true, margin: "-100px" }}
               variants={scrollRevealVariants}
             >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/5">
+              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
                 <img
                   src={GALLERY_DATA[3].image}
                   alt={GALLERY_DATA[3].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/20 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
@@ -450,7 +450,7 @@ function BentoSections() {
 
 
       {/* ----------------- TESTIMONIALS SECTION (Cinematic Quote Slider with Progress Bar) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-white/5 pt-20">
+      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left mb-2">
           04 // CLIENT VOICES
         </h2>
@@ -459,7 +459,7 @@ function BentoSections() {
         <div className="relative min-h-[340px] flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-6 w-full overflow-hidden">
           
           {/* Subtle Watermark Quote Icon in background */}
-          <span className="font-serif text-[18rem] text-white/[0.015] absolute -top-16 left-6 select-none pointer-events-none">
+          <span className="font-serif text-[18rem] text-black/[0.015] absolute -top-16 left-6 select-none pointer-events-none">
             “
           </span>
 
@@ -494,7 +494,7 @@ function BentoSections() {
             <button 
               onClick={prevTestimonial}
               aria-label="Previous Testimonial"
-              className="w-12 h-12 rounded-full border border-white/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
+              className="w-12 h-12 rounded-full border border-black/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -502,7 +502,7 @@ function BentoSections() {
             </button>
             
             {/* Custom slider progress line */}
-            <div className="w-24 bg-white/10 h-[2px] rounded-full overflow-hidden relative">
+            <div className="w-24 bg-black/10 h-[2px] rounded-full overflow-hidden relative">
               <div 
                 className="h-full bg-brand-white transition-all duration-500 ease-out"
                 style={{ width: `${((activeTestimonial + 1) / TESTIMONIALS_DATA.length) * 100}%` }}
@@ -512,7 +512,7 @@ function BentoSections() {
             <button 
               onClick={nextTestimonial}
               aria-label="Next Testimonial"
-              className="w-12 h-12 rounded-full border border-white/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
+              className="w-12 h-12 rounded-full border border-black/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -523,15 +523,15 @@ function BentoSections() {
       </section>
 
 
-      {/* ----------------- CONTACT & FOOTER SECTION (Expanding Underline Inputs & Floating Labels) ----------------- */}
-      <section className="flex flex-col gap-12 w-full border-t border-white/5 pt-20">
+      {/* ----------------- CONTACT & FOOTER SECTION (Split Underline Input Form) ----------------- */}
+      <section className="flex flex-col gap-12 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
           05 // COLLABORATE
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start text-left">
           
-          {/* Left Details column with shifting radial light backdrop */}
+          {/* Left Details column */}
           <div className="lg:col-span-5 flex flex-col gap-12 relative">
             <div className="flex flex-col gap-5 z-10">
               <h3 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-brand-white leading-[1.05]">
@@ -543,7 +543,7 @@ function BentoSections() {
             </div>
 
             {/* Direct details info list */}
-            <div className="flex flex-col gap-6 border-t border-white/5 pt-8 z-10">
+            <div className="flex flex-col gap-6 border-t border-black/5 pt-8 z-10">
               <div className="flex flex-col gap-1.5 group">
                 <span className="text-[9px] text-brand-gray/40 font-bold tracking-widest font-sans uppercase">studio email</span>
                 <a href="mailto:hello@aesthetique.com" className="text-sm font-semibold text-brand-white hover:text-brand-gray tracking-wide transition-all duration-300">
@@ -571,7 +571,7 @@ function BentoSections() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-24 text-center gap-5 bg-brand-dark/30 border border-white/5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
+                className="flex flex-col items-center justify-center py-24 text-center gap-5 bg-brand-dark/30 border border-black/5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(22,21,19,0.04)]"
               >
                 <div className="w-14 h-14 bg-brand-white/10 rounded-full flex items-center justify-center text-brand-white border border-brand-white/20">
                   <svg className="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -598,10 +598,10 @@ function BentoSections() {
                     value={formState.name}
                     onChange={handleInputChange}
                     placeholder="Enter your name..." 
-                    className="w-full bg-transparent border-b border-white/10 py-3 text-sm text-brand-white placeholder-brand-gray/25 outline-none transition-all duration-300 focus:placeholder-transparent"
+                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent"
                   />
                   {/* Expanding accent underline */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-brand-white scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
                 </div>
 
                 {/* Minimal underline input 2 */}
@@ -616,9 +616,9 @@ function BentoSections() {
                     value={formState.email}
                     onChange={handleInputChange}
                     placeholder="Enter your email..." 
-                    className="w-full bg-transparent border-b border-white/10 py-3 text-sm text-brand-white placeholder-brand-gray/25 outline-none transition-all duration-300 focus:placeholder-transparent"
+                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-brand-white scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
                 </div>
 
                 {/* Minimal underline input 3 */}
@@ -633,16 +633,16 @@ function BentoSections() {
                     onChange={handleInputChange}
                     rows="2"
                     placeholder="Briefly describe your space, goals, or schedule..." 
-                    className="w-full bg-transparent border-b border-white/10 py-3 text-sm text-brand-white placeholder-brand-gray/25 outline-none transition-all duration-300 focus:placeholder-transparent resize-none"
+                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent resize-none"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-brand-white scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
                 </div>
 
                 {/* Submit button with sliding mask hover effect */}
                 <div className="pt-4">
                   <button 
                     type="submit"
-                    className="relative overflow-hidden inline-flex items-center justify-center px-10 py-4 rounded-full border border-brand-white bg-brand-black text-brand-white text-xs font-semibold tracking-widest transition-all duration-300 hover:bg-brand-white hover:text-brand-black uppercase group"
+                    className="relative overflow-hidden inline-flex items-center justify-center px-10 py-4 rounded-full border border-[#161513] bg-[#161513] text-[#F2F0EB] text-xs font-semibold tracking-widest transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] uppercase group"
                   >
                     Submit Details
                   </button>
@@ -653,10 +653,10 @@ function BentoSections() {
         </div>
 
         {/* Footer bottom signature row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-white/5 pt-12 mt-16 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-black/5 pt-12 mt-16 text-center sm:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-brand-dark border border-white/10 rounded-xl flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-brand-white" fill="currentColor" viewBox="0 0 24 24">
+            <div className="w-8 h-8 bg-[#161513] border border-black/5 rounded-xl flex items-center justify-center">
+              <svg className="w-3.5 h-3.5 text-[#F2F0EB]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
               </svg>
             </div>
