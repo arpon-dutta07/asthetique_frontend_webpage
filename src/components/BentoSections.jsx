@@ -221,14 +221,14 @@ function BentoSections({ onOpenDetail }) {
           </span>
         </div>
 
-        <div className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3.5rem] flex flex-col lg:flex-row min-h-[580px] lg:aspect-video border border-black/5 dark:border-white/5 bg-brand-dark/20 shadow-xl">
+        <div className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[4rem] flex flex-col lg:flex-row min-h-[720px] border border-black/5 dark:border-white/5 bg-brand-dark/20 shadow-2xl">
           {/* Left Column: Vertical sliding timeline */}
-          <div className="w-full lg:w-[45%] min-h-[320px] md:min-h-[400px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-6 md:px-12 bg-transparent">
+          <div className="w-full lg:w-[45%] min-h-[380px] md:min-h-[480px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-8 md:px-16 bg-transparent py-8">
             {/* Soft gradients at top and bottom of list */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
             
-            <div className="relative w-full h-[280px] flex items-center justify-start z-10">
+            <div className="relative w-full h-[440px] flex items-center justify-start z-10">
               {SERVICES_DATA.map((service, index) => {
                 const isActive = index === currentIndex;
                 const distance = index - currentIndex;
@@ -238,11 +238,11 @@ function BentoSections({ onOpenDetail }) {
                   <motion.div
                     key={service.id}
                     style={{
-                      height: 70,
+                      height: 96,
                       width: "100%",
                     }}
                     animate={{
-                      y: wrappedDistance * 72,
+                      y: wrappedDistance * 98,
                       opacity: 1 - Math.abs(wrappedDistance) * 0.35,
                     }}
                     transition={{
@@ -260,25 +260,25 @@ function BentoSections({ onOpenDetail }) {
                       }}
                       onMouseEnter={() => setIsPaused(true)}
                       onMouseLeave={() => setIsPaused(false)}
-                      className={`relative flex items-center gap-4 px-6 py-3.5 rounded-full transition-all duration-700 text-left group border w-full md:w-[90%] outline-none focus:outline-none cursor-pointer ${
+                      className={`relative flex items-center gap-5 px-8 py-5 rounded-[2rem] transition-all duration-700 text-left group border w-full md:w-[95%] lg:w-full outline-none focus:outline-none cursor-pointer ${
                         isActive
-                          ? "bg-brand-white text-brand-black border-brand-white z-10 shadow-lg"
+                          ? "bg-brand-white text-brand-black border-brand-white z-10 shadow-xl scale-[1.02]"
                           : "bg-transparent text-brand-white/40 border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:text-brand-white"
                       }`}
                     >
                       <div
-                        className={`flex items-center justify-center transition-colors duration-500 ${
-                          isActive ? "text-brand-black" : "text-brand-white/30"
+                        className={`flex items-center justify-center transition-colors duration-500 w-10 h-10 rounded-full ${
+                          isActive ? "text-brand-black bg-brand-black/5" : "text-brand-white/30 bg-transparent"
                         }`}
                       >
                         <ServiceIcon iconId={service.id} isActive={isActive} />
                       </div>
 
                       <div className="flex flex-col">
-                        <span className="text-[8px] font-mono tracking-widest opacity-60 uppercase">
+                        <span className="text-[10px] font-mono tracking-widest opacity-60 uppercase">
                           SERVICE {service.id}
                         </span>
-                        <span className="font-serif text-sm font-normal tracking-wide uppercase">
+                        <span className="font-serif text-base md:text-lg font-medium tracking-wide uppercase">
                           {service.title}
                         </span>
                       </div>
@@ -290,8 +290,8 @@ function BentoSections({ onOpenDetail }) {
           </div>
 
           {/* Right Column: Stacked Cards */}
-          <div className="flex-1 min-h-[460px] lg:h-full relative flex items-center justify-center py-12 px-6 md:px-12 overflow-hidden border-t lg:border-t-0 lg:border-l border-black/5 dark:border-white/5 bg-brand-dark/10">
-            <div className="relative w-full max-w-[400px] aspect-[4/5] flex items-center justify-center">
+          <div className="flex-1 min-h-[580px] lg:h-full relative flex items-center justify-center py-16 px-6 md:px-16 overflow-hidden border-t lg:border-t-0 lg:border-l border-black/5 dark:border-white/5 bg-brand-dark/10">
+            <div className="relative w-full max-w-[500px] aspect-[4/5] flex items-center justify-center h-[90%] lg:h-[95%]">
               {SERVICES_DATA.map((service, index) => {
                 const status = getCardStatus(index);
                 const isActive = status === "active";
@@ -303,20 +303,21 @@ function BentoSections({ onOpenDetail }) {
                     key={service.id}
                     initial={false}
                     animate={{
-                      x: isActive ? 0 : isPrev ? -90 : isNext ? 90 : 0,
+                      x: isActive ? 0 : isPrev ? -100 : isNext ? 100 : 0,
                       scale: isActive ? 1 : isPrev || isNext ? 0.88 : 0.75,
                       opacity: isActive ? 1 : isPrev || isNext ? 0.35 : 0,
                       rotate: isPrev ? -4 : isNext ? 4 : 0,
                       zIndex: isActive ? 20 : isPrev || isNext ? 10 : 0,
                       pointerEvents: isActive ? "auto" : "none",
                     }}
+                    whileHover={isActive ? { scale: 1.03, y: -8, transition: { duration: 0.3 } } : {}}
                     transition={{
                       type: "spring",
                       stiffness: 220,
                       damping: 24,
                       mass: 0.8,
                     }}
-                    className="absolute inset-0 rounded-[2rem] overflow-hidden border-4 border-brand-black bg-brand-black origin-center shadow-xl"
+                    className="absolute inset-0 rounded-[2.5rem] overflow-hidden border-6 border-brand-black bg-brand-black origin-center shadow-2xl cursor-pointer"
                   >
                     <img
                       src={service.image}
@@ -329,7 +330,7 @@ function BentoSections({ onOpenDetail }) {
                     />
 
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent pointer-events-none z-10" />
 
                     <AnimatePresence>
                       {isActive && (
@@ -337,24 +338,24 @@ function BentoSections({ onOpenDetail }) {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
-                          className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end text-left pointer-events-none z-20"
+                          className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end text-left pointer-events-none z-20"
                         >
-                          <div className="bg-[#F2F0EB] text-[#161513] px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] w-fit shadow-md mb-3">
+                          <div className="bg-[#F2F0EB] text-[#161513] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] w-fit shadow-md mb-4 border border-white/10">
                             {service.category}
                           </div>
-                          <h3 className="text-white font-serif text-lg md:text-xl font-normal leading-tight mb-2 tracking-wide uppercase">
+                          <h3 className="text-white font-serif text-2xl md:text-3xl font-normal leading-tight mb-3 tracking-wide uppercase">
                             {service.title}
                           </h3>
-                          <p className="text-white/80 font-light text-xs leading-relaxed mb-4">
+                          <p className="text-white/85 font-light text-xs md:text-sm leading-relaxed mb-6 max-w-md">
                             {service.description}
                           </p>
                           
                           {/* Highlights tags */}
-                          <div className="flex flex-wrap gap-1.5 pt-1">
+                          <div className="flex flex-wrap gap-2 pt-1">
                             {service.highlights.map((tag) => (
                               <span 
                                 key={tag} 
-                                className="text-[8px] tracking-widest text-white/90 bg-white/10 border border-white/10 px-2.5 py-1 rounded-full uppercase font-medium"
+                                className="text-[9px] tracking-widest text-white/90 bg-white/10 border border-white/10 px-3.5 py-1.5 rounded-full uppercase font-medium"
                               >
                                 {tag}
                               </span>
@@ -366,12 +367,12 @@ function BentoSections({ onOpenDetail }) {
 
                     {/* Premium Live Indicator tag */}
                     <div
-                      className={`absolute top-6 left-6 flex items-center gap-2 transition-opacity duration-300 ${
+                      className={`absolute top-8 left-8 flex items-center gap-2 transition-opacity duration-300 ${
                         isActive ? "opacity-100" : "opacity-0"
                       }`}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white] animate-pulse" />
-                      <span className="text-white/70 text-[8px] font-normal uppercase tracking-[0.25em] font-mono">
+                      <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white] animate-pulse" />
+                      <span className="text-white/70 text-[9px] font-normal uppercase tracking-[0.25em] font-mono">
                         Studio Space {service.id}
                       </span>
                     </div>
