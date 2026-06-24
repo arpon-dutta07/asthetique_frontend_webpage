@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
 
 const SERVICES_DATA = [
   {
@@ -100,11 +100,73 @@ const TESTIMONIALS_DATA = [
   }
 ]
 
+const wrap = (min, max, v) => {
+  const rangeSize = max - min;
+  return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
+};
+
+function ServiceIcon({ iconId, isActive }) {
+  const strokeClass = isActive ? "stroke-[2.5]" : "stroke-2";
+  if (iconId === '01') {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" className={strokeClass} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+    );
+  }
+  if (iconId === '02') {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" className={strokeClass} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg>
+    );
+  }
+  if (iconId === '03') {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" className={strokeClass} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" className={strokeClass} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    </svg>
+  );
+}
+
 function BentoSections({ onOpenDetail }) {
-  const [activeService, setActiveService] = useState(0)
+  const [step, setStep] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [formSubmitted, setFormSubmitted] = useState(false)
+
+  const currentIndex = ((step % SERVICES_DATA.length) + SERVICES_DATA.length) % SERVICES_DATA.length
+
+  const nextStep = useCallback(() => {
+    setStep((prev) => prev + 1)
+  }, [])
+
+  useEffect(() => {
+    if (isPaused) return
+    const interval = setInterval(nextStep, 3500)
+    return () => clearInterval(interval)
+  }, [nextStep, isPaused])
+
+  const getCardStatus = (index) => {
+    const diff = index - currentIndex;
+    const len = SERVICES_DATA.length;
+
+    let normalizedDiff = diff;
+    if (diff > len / 2) normalizedDiff -= len;
+    if (diff < -len / 2) normalizedDiff += len;
+
+    if (normalizedDiff === 0) return "active";
+    if (normalizedDiff === -1) return "prev";
+    if (normalizedDiff === 1) return "next";
+    return "hidden";
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -148,10 +210,10 @@ function BentoSections({ onOpenDetail }) {
   return (
     <div className="flex flex-col gap-32 w-full mt-24 pb-20">
       
-      {/* ----------------- SERVICES SECTION (Interactive Split Screen Layout) ----------------- */}
+      {/* ----------------- SERVICES SECTION (Carousel Showcase with 3D Stacked Cards) ----------------- */}
       <section id="services" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
+          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
             01 // SERVICES SHOWCASE
           </h2>
           <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
@@ -159,108 +221,164 @@ function BentoSections({ onOpenDetail }) {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Typographic Services list */}
-          <div className="lg:col-span-6 flex flex-col w-full border-b border-black/5 lg:border-b-0">
-            {SERVICES_DATA.map((service, index) => (
-              <button
-                key={service.id}
-                onMouseEnter={() => setActiveService(index)}
-                onClick={() => setActiveService(index)}
-                className={`py-8 text-left border-t border-black/5 flex flex-col gap-2 transition-all duration-500 w-full outline-none focus:outline-none relative group`}
-              >
-                {/* Horizontal sliding underline on hover */}
-                <div 
-                  className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] origin-left transition-transform duration-500 ease-out ${
-                    activeService === index ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'
-                  }`} 
-                />
+        <div className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3.5rem] flex flex-col lg:flex-row min-h-[580px] lg:aspect-video border border-black/5 dark:border-white/5 bg-brand-dark/20 shadow-xl">
+          {/* Left Column: Vertical sliding timeline */}
+          <div className="w-full lg:w-[45%] min-h-[320px] md:min-h-[400px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-6 md:px-12 bg-transparent">
+            {/* Soft gradients at top and bottom of list */}
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
+            
+            <div className="relative w-full h-[280px] flex items-center justify-start z-10">
+              {SERVICES_DATA.map((service, index) => {
+                const isActive = index === currentIndex;
+                const distance = index - currentIndex;
+                const wrappedDistance = wrap(-2, 2, distance);
 
-                <div className="flex items-center justify-between w-full pr-4">
-                  <div className={`flex flex-col gap-2 transition-transform duration-500 ${
-                    activeService === index ? 'translate-x-3' : 'translate-x-0'
-                  }`}>
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-xs text-brand-gray/50">{service.id}</span>
-                      <span className={`text-[9px] tracking-widest uppercase font-bold transition-colors duration-500 ${
-                        activeService === index ? 'text-brand-white' : 'text-brand-gray/40'
-                      }`}>
-                        {service.category}
-                      </span>
-                    </div>
-                    <h3 className={`text-xl md:text-3xl font-medium tracking-normal font-serif transition-colors duration-500 ${
-                      activeService === index ? 'text-brand-white' : 'text-brand-white/40'
-                    }`}>
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  {/* Animated luxury arrow sliding in */}
-                  <div className="overflow-hidden h-6 w-8 relative shrink-0">
-                    <motion.div
-                      animate={{ 
-                        x: activeService === index ? 0 : -20,
-                        opacity: activeService === index ? 1 : 0
+                return (
+                  <motion.div
+                    key={service.id}
+                    style={{
+                      height: 70,
+                      width: "100%",
+                    }}
+                    animate={{
+                      y: wrappedDistance * 72,
+                      opacity: 1 - Math.abs(wrappedDistance) * 0.35,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 90,
+                      damping: 22,
+                      mass: 1,
+                    }}
+                    className="absolute flex items-center justify-start left-0 w-full"
+                  >
+                    <button
+                      onClick={() => {
+                        const diff = (index - currentIndex + SERVICES_DATA.length) % SERVICES_DATA.length;
+                        if (diff > 0) setStep((s) => s + diff);
                       }}
-                      transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                      className="text-brand-white absolute right-0"
+                      onMouseEnter={() => setIsPaused(true)}
+                      onMouseLeave={() => setIsPaused(false)}
+                      className={`relative flex items-center gap-4 px-6 py-3.5 rounded-full transition-all duration-700 text-left group border w-full md:w-[90%] outline-none focus:outline-none cursor-pointer ${
+                        isActive
+                          ? "bg-brand-white text-brand-black border-brand-white z-10 shadow-lg"
+                          : "bg-transparent text-brand-white/40 border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:text-brand-white"
+                      }`}
                     >
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                      </svg>
-                    </motion.div>
-                  </div>
-                </div>
-              </button>
-            ))}
+                      <div
+                        className={`flex items-center justify-center transition-colors duration-500 ${
+                          isActive ? "text-brand-black" : "text-brand-white/30"
+                        }`}
+                      >
+                        <ServiceIcon iconId={service.id} isActive={isActive} />
+                      </div>
+
+                      <div className="flex flex-col">
+                        <span className="text-[8px] font-mono tracking-widest opacity-60 uppercase">
+                          SERVICE {service.id}
+                        </span>
+                        <span className="font-serif text-sm font-normal tracking-wide uppercase">
+                          {service.title}
+                        </span>
+                      </div>
+                    </button>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Right Column: Premium Image Mask Reveal & Details */}
-          <div className="lg:col-span-6 flex flex-col gap-8 relative lg:sticky lg:top-12 w-full">
-            {/* Image Container with Inset Mask ClipPath */}
-            <div className="relative rounded-[2.5rem] overflow-hidden aspect-video md:aspect-[16/10] bg-brand-dark shadow-[0_25px_60px_rgba(22,21,19,0.08)] border border-black/5">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeService}
-                  src={SERVICES_DATA[activeService].image}
-                  alt={SERVICES_DATA[activeService].title}
-                  initial={{ clipPath: 'inset(12% 12% 12% 12% rounded 2.5rem)', opacity: 0, scale: 1.05 }}
-                  animate={{ clipPath: 'inset(0% 0% 0% 0% rounded 2.5rem)', opacity: 1, scale: 1 }}
-                  exit={{ clipPath: 'inset(12% 12% 12% 12% rounded 2.5rem)', opacity: 0 }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none z-10" />
-            </div>
+          {/* Right Column: Stacked Cards */}
+          <div className="flex-1 min-h-[460px] lg:h-full relative flex items-center justify-center py-12 px-6 md:px-12 overflow-hidden border-t lg:border-t-0 lg:border-l border-black/5 dark:border-white/5 bg-brand-dark/10">
+            <div className="relative w-full max-w-[400px] aspect-[4/5] flex items-center justify-center">
+              {SERVICES_DATA.map((service, index) => {
+                const status = getCardStatus(index);
+                const isActive = status === "active";
+                const isPrev = status === "prev";
+                const isNext = status === "next";
 
-            {/* Dynamic Text Details */}
-            <motion.div
-              key={activeService}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="flex flex-col gap-5 text-left px-4"
-            >
-              <p className="text-brand-gray text-sm md:text-base font-light leading-relaxed">
-                {SERVICES_DATA[activeService].description}
-              </p>
-              
-              {/* Highlights tags staggered */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                {SERVICES_DATA[activeService].highlights.map((tag, i) => (
-                  <motion.span 
-                    key={tag} 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.08, type: "spring", stiffness: 100 }}
-                    className="text-[9px] tracking-widest text-brand-white bg-black/5 border border-black/10 px-4 py-2 rounded-full uppercase font-medium"
+                return (
+                  <motion.div
+                    key={service.id}
+                    initial={false}
+                    animate={{
+                      x: isActive ? 0 : isPrev ? -90 : isNext ? 90 : 0,
+                      scale: isActive ? 1 : isPrev || isNext ? 0.88 : 0.75,
+                      opacity: isActive ? 1 : isPrev || isNext ? 0.35 : 0,
+                      rotate: isPrev ? -4 : isNext ? 4 : 0,
+                      zIndex: isActive ? 20 : isPrev || isNext ? 10 : 0,
+                      pointerEvents: isActive ? "auto" : "none",
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 220,
+                      damping: 24,
+                      mass: 0.8,
+                    }}
+                    className="absolute inset-0 rounded-[2rem] overflow-hidden border-4 border-brand-black bg-brand-black origin-center shadow-xl"
                   >
-                    {tag}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className={`w-full h-full object-cover transition-all duration-700 ${
+                        isActive
+                          ? "grayscale-0 blur-0 scale-100"
+                          : "grayscale blur-[2px] brightness-75 scale-105"
+                      }`}
+                    />
+
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none z-10" />
+
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end text-left pointer-events-none z-20"
+                        >
+                          <div className="bg-[#F2F0EB] text-[#161513] px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] w-fit shadow-md mb-3">
+                            {service.category}
+                          </div>
+                          <h3 className="text-white font-serif text-lg md:text-xl font-normal leading-tight mb-2 tracking-wide uppercase">
+                            {service.title}
+                          </h3>
+                          <p className="text-white/80 font-light text-xs leading-relaxed mb-4">
+                            {service.description}
+                          </p>
+                          
+                          {/* Highlights tags */}
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {service.highlights.map((tag) => (
+                              <span 
+                                key={tag} 
+                                className="text-[8px] tracking-widest text-white/90 bg-white/10 border border-white/10 px-2.5 py-1 rounded-full uppercase font-medium"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Premium Live Indicator tag */}
+                    <div
+                      className={`absolute top-6 left-6 flex items-center gap-2 transition-opacity duration-300 ${
+                        isActive ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white] animate-pulse" />
+                      <span className="text-white/70 text-[8px] font-normal uppercase tracking-[0.25em] font-mono">
+                        Studio Space {service.id}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
