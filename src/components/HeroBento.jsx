@@ -6,6 +6,7 @@ import CategoryCard from './CategoryCard'
 
 function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
   const containerRef = useRef(null)
+  const videoRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   // Parallax scroll effect for Hero image (subtle ~25px drift)
@@ -28,6 +29,79 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
   }, [])
 
   const { width, height } = dimensions
+
+  // Autoplay with full audio (falling back to muted autoplay if blocked, unmuting on click, pausing on scroll)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.volume = 1.0
+    video.muted = false
+
+    let hasInteracted = false
+
+    const attemptPlay = () => {
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback to muted autoplay
+          video.muted = true
+          video.play().catch(err => console.log("Video play failed:", err))
+        })
+      }
+    }
+
+    attemptPlay()
+
+    // Unmute on first user interaction on the page
+    const handleUserInteraction = () => {
+      hasInteracted = true
+      if (video.muted && window.scrollY <= 450) {
+        video.muted = false
+        video.volume = 1.0
+        video.play().catch(err => console.log("Video play failed on interaction:", err))
+      }
+      // Remove event listeners
+      window.removeEventListener('click', handleUserInteraction)
+      window.removeEventListener('touchstart', handleUserInteraction)
+    }
+
+    window.addEventListener('click', handleUserInteraction)
+    window.addEventListener('touchstart', handleUserInteraction)
+
+    // Pause audio/video on scroll down from Hero
+    const handleScroll = () => {
+      const scrollPos = window.scrollY
+      if (scrollPos > 450) {
+        // Scroll down: mute and pause
+        if (!video.muted) {
+          video.muted = true
+        }
+        if (!video.paused) {
+          video.pause()
+        }
+      } else {
+        // Scroll back to Hero: resume play
+        if (video.paused) {
+          // Restore unmuted if interacted
+          if (hasInteracted) {
+            video.muted = false
+            video.volume = 1.0
+          }
+          video.play().catch(err => console.log("Video resume failed:", err))
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('click', handleUserInteraction)
+      window.removeEventListener('touchstart', handleUserInteraction)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const isMobile = width < 768
 
   // Cutout Sizes
@@ -221,13 +295,22 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
           style={width > 0 ? { clipPath: 'url(#hero-clip-path)' } : { borderRadius: '2rem' }}
         >
           <div className="absolute inset-0 w-full h-full overflow-hidden">
-            {/* Parallax Image */}
-            <motion.img
-              src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1200"
-              alt="Luxury Interior Design"
+            {/* Parallax Looping Video */}
+            <motion.video
+              ref={videoRef}
+              autoPlay
+              loop
+              playsInline
+              muted
               className="absolute inset-0 w-full h-full object-cover origin-center scale-105"
               style={{ y: heroImageY }}
-            />
+            >
+              <source 
+                src="/vidssave.com Lehem Interiors _ Interior Design Firm _ Nairobi Kenya _ AD 1080P.mp4" 
+                type="video/mp4" 
+              />
+              Your browser does not support the video tag.
+            </motion.video>
             {/* Subtle overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-brand-black/20 via-transparent to-brand-black/45 pointer-events-none" />
           </div>
