@@ -61,21 +61,25 @@ const PROCESS_DATA = [
 
 const GALLERY_DATA = [
   {
+    id: 'tribeca-loft',
     image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',
     title: 'Tribeca Loft',
     location: 'NEW YORK, NY'
   },
   {
+    id: 'penthouse-noir',
     image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800',
     title: 'Penthouse Noir',
     location: 'LONDON, UK'
   },
   {
+    id: 'japandi-haven',
     image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800',
     title: 'Japandi Haven',
     location: 'KYOTO, JP'
   },
   {
+    id: 'verde-studio',
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800',
     title: 'Verde Studio',
     location: 'SOHO, NY'
@@ -141,6 +145,15 @@ function BentoSections({ onOpenDetail }) {
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [expandedProject, setExpandedProject] = useState(2) // Default to index 2 (Japandi Haven)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const currentIndex = ((step % SERVICES_DATA.length) + SERVICES_DATA.length) % SERVICES_DATA.length
 
@@ -442,130 +455,104 @@ function BentoSections({ onOpenDetail }) {
       </section>
 
 
-      {/* ----------------- PROJECTS GALLERY SECTION (Art-Book Offset Layout) ----------------- */}
+      {/* ----------------- PROJECTS GALLERY SECTION (Expandable Stacking Accordion) ----------------- */}
       <section id="gallery" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
+          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
             03 // EDITORIAL ARCHIVE
           </h2>
           <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
-            ART-PORTFOLIO GRID
+            ACCORDION PORTFOLIO
           </span>
         </div>
 
-        {/* Staggered offsets for high-end gallery feel */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-stretch">
-          
-          {/* Left Column (Left shifted) */}
-          <div className="flex flex-col gap-16 md:gap-24">
-            
-            {/* Project 1 */}
-            <motion.div 
-              className="flex flex-col gap-4 text-left group cursor-pointer"
-              onClick={() => onOpenDetail('tribeca-loft')}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={scrollRevealVariants}
-            >
-              {/* Outer image holder with scale overflow-hidden */}
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
-                <img
-                  src={GALLERY_DATA[0].image}
-                  alt={GALLERY_DATA[0].title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
-              </div>
-              <div className="flex justify-between items-center px-4 pt-1">
-                {/* Text letters breathe/expand on card hover */}
-                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
-                  {GALLERY_DATA[0].title}
-                </h3>
-                <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[0].location}</span>
-              </div>
-            </motion.div>
+        <div className="flex flex-col lg:flex-row w-full gap-5 items-stretch mt-8 select-none">
+          {GALLERY_DATA.map((project, idx) => {
+            const isActive = idx === expandedProject;
 
-            {/* Project 3 */}
-            <motion.div 
-              className="flex flex-col gap-4 text-left group md:mt-16 cursor-pointer"
-              onClick={() => onOpenDetail('japandi-haven')}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={scrollRevealVariants}
-            >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
+            return (
+              <motion.div
+                key={project.id}
+                onMouseEnter={() => setExpandedProject(idx)}
+                onClick={() => setExpandedProject(idx)}
+                className="relative cursor-pointer overflow-hidden rounded-[2.5rem] bg-brand-dark transition-all duration-500 ease-in-out shadow-2xl border border-black/5 dark:border-white/5"
+                animate={{
+                  flexGrow: isActive ? 4.5 : 1,
+                  height: isMobile ? (isActive ? 340 : 110) : 540,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 140,
+                  damping: 18,
+                  mass: 0.9,
+                }}
+              >
                 <img
-                  src={GALLERY_DATA[2].image}
-                  alt={GALLERY_DATA[2].title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
+                  className={`w-full h-full object-cover absolute inset-0 z-0 transition-all duration-1000 ease-out ${
+                    isActive ? "grayscale-0 blur-0 scale-100" : "grayscale blur-[1.5px] brightness-75 scale-[1.03]"
+                  }`}
+                  src={project.image}
+                  alt={project.title}
                 />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
-              </div>
-              <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
-                  {GALLERY_DATA[2].title}
-                </h3>
-                <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[2].location}</span>
-              </div>
-            </motion.div>
-          </div>
+                
+                {/* Dark gradient overlay inside card */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none z-10" />
 
-          {/* Right Column (Right shifted downwards on desktop) */}
-          <div className="flex flex-col gap-16 md:gap-24 md:pt-32">
-            
-            {/* Project 2 */}
-            <motion.div 
-              className="flex flex-col gap-4 text-left group cursor-pointer"
-              onClick={() => onOpenDetail('penthouse-noir')}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={scrollRevealVariants}
-            >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
-                <img
-                  src={GALLERY_DATA[1].image}
-                  alt={GALLERY_DATA[1].title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
-              </div>
-              <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
-                  {GALLERY_DATA[1].title}
-                </h3>
-                <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[1].location}</span>
-              </div>
-            </motion.div>
+                {/* Vertical title metadata for inactive cards (visible on desktop) */}
+                <AnimatePresence>
+                  {!isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.5, transition: { delay: 0.1 } }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 hidden lg:flex"
+                    >
+                      <span className="font-serif text-sm text-white tracking-[0.25em] uppercase origin-center rotate-90 whitespace-nowrap">
+                        0{idx + 1} / {project.title}
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-            {/* Project 4 */}
-            <motion.div 
-              className="flex flex-col gap-4 text-left group md:mt-16 cursor-pointer"
-              onClick={() => onOpenDetail('verde-studio')}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={scrollRevealVariants}
-            >
-              <div className="rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-brand-dark relative shadow-[0_20px_50px_rgba(22,21,19,0.05)] border border-black/5">
-                <img
-                  src={GALLERY_DATA[3].image}
-                  alt={GALLERY_DATA[3].title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
-              </div>
-              <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
-                  {GALLERY_DATA[3].title}
-                </h3>
-                <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[3].location}</span>
-              </div>
-            </motion.div>
-          </div>
+                {/* Full metadata description overlay for the active card */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0, transition: { delay: 0.15 } }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end text-left z-20"
+                    >
+                      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 w-full pointer-events-none">
+                        <div className="flex flex-col gap-2">
+                          <span className="text-[10px] font-mono tracking-widest text-[#F2F0EB]/60 uppercase">
+                            PROJECT 0{idx + 1} // {project.location}
+                          </span>
+                          <h3 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white uppercase tracking-wide">
+                            {project.title}
+                          </h3>
+                        </div>
 
+                        {/* Clickable Explore Space Action button */}
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenDetail(project.id);
+                          }}
+                          className="flex items-center justify-center gap-2 bg-[#F2F0EB] text-[#161513] px-6 py-3.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#161513] hover:text-white hover:scale-105 pointer-events-auto cursor-pointer"
+                        >
+                          <span>Explore Space</span>
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                          </svg>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 

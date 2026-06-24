@@ -1,10 +1,9 @@
-"use client";
-import FeatureCarousel from "@/components/ui/feature-carousel";
+import ExpandOnHover from "@/components/ui/expand-cards";
 
-export default function Demo() {
+export default function ExpandHoverPage() {
   return (
-    <div className="flex items-center justify-center w-full min-h-screen bg-background p-8">
-      <FeatureCarousel />
+    <div className="min-h-screen">
+      <ExpandOnHover />
     </div>
   );
 }
