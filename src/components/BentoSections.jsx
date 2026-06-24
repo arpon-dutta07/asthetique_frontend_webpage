@@ -221,9 +221,9 @@ function BentoSections({ onOpenDetail }) {
           </span>
         </div>
 
-        <div className="relative flex flex-col lg:flex-row min-h-[720px] w-full">
+        <div className="relative flex flex-col lg:flex-row lg:items-center min-h-[720px] w-full">
           {/* Left Column: Vertical sliding timeline */}
-          <div className="w-full lg:w-[45%] min-h-[380px] md:min-h-[480px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-8 md:px-16 bg-transparent py-8">
+          <div className="w-full lg:w-[45%] min-h-[380px] md:min-h-[480px] relative z-30 flex flex-col items-start justify-center overflow-hidden px-8 md:px-16 bg-transparent py-8">
             
             <div className="relative w-full h-[440px] z-10">
               {SERVICES_DATA.map((service, index) => {

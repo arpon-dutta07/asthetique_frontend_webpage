@@ -87,7 +87,7 @@ const DETAIL_DATA = {
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDarkTheme, setIsDarkTheme] = useState(false)
+  const [isDarkTheme, setIsDarkTheme] = useState(true)
   const [activeDetail, setActiveDetail] = useState(null)
 
   const toggleTheme = () => setIsDarkTheme(prev => !prev)
