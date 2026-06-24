@@ -1,10 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-function CategoryCard({ image, label, gridClass = '' }) {
+function CategoryCard({ image, label, gridClass = '', onClick }) {
   return (
     <motion.div
-      className={`relative rounded-[2rem] overflow-hidden border border-white/5 bg-brand-dark group flex items-center justify-center min-h-[130px] md:min-h-[150px] aspect-square md:aspect-auto lg:h-full interactive-card ${gridClass}`}
+      onClick={onClick}
+      className={`relative rounded-[2rem] overflow-hidden border border-white/5 bg-brand-dark group flex items-center justify-center min-h-[130px] md:min-h-[150px] aspect-square md:aspect-auto lg:h-full interactive-card cursor-pointer ${gridClass}`}
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300 }}
     >

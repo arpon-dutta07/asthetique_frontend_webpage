@@ -100,7 +100,7 @@ const TESTIMONIALS_DATA = [
   }
 ]
 
-function BentoSections() {
+function BentoSections({ onOpenDetail }) {
   const [activeService, setActiveService] = useState(0)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
@@ -344,7 +344,8 @@ function BentoSections() {
             
             {/* Project 1 */}
             <motion.div 
-              className="flex flex-col gap-4 text-left group cursor-none"
+              className="flex flex-col gap-4 text-left group cursor-pointer"
+              onClick={() => onOpenDetail('tribeca-loft')}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
@@ -370,7 +371,8 @@ function BentoSections() {
 
             {/* Project 3 */}
             <motion.div 
-              className="flex flex-col gap-4 text-left group md:mt-16"
+              className="flex flex-col gap-4 text-left group md:mt-16 cursor-pointer"
+              onClick={() => onOpenDetail('japandi-haven')}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
@@ -398,7 +400,8 @@ function BentoSections() {
             
             {/* Project 2 */}
             <motion.div 
-              className="flex flex-col gap-4 text-left group"
+              className="flex flex-col gap-4 text-left group cursor-pointer"
+              onClick={() => onOpenDetail('penthouse-noir')}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
@@ -422,7 +425,8 @@ function BentoSections() {
 
             {/* Project 4 */}
             <motion.div 
-              className="flex flex-col gap-4 text-left group md:mt-16"
+              className="flex flex-col gap-4 text-left group md:mt-16 cursor-pointer"
+              onClick={() => onOpenDetail('verde-studio')}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}

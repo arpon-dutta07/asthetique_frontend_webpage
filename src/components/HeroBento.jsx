@@ -4,7 +4,7 @@ import RotatingBadge from './RotatingBadge'
 import ProjectCard from './ProjectCard'
 import CategoryCard from './CategoryCard'
 
-function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
+function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
   const containerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -332,6 +332,7 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
         image="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=800"
         title="Casa Noir Residence"
         gridClass="col-span-1 lg:col-span-7"
+        onClick={() => onOpenDetail('casa-noir')}
       />
 
 
@@ -343,14 +344,17 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
         <CategoryCard 
           image="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400"
           label="Commercial"
+          onClick={() => onOpenDetail('commercial')}
         />
         <CategoryCard 
           image="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400"
           label="Residential"
+          onClick={() => onOpenDetail('residential')}
         />
         <CategoryCard 
           image="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400"
           label="Recreation"
+          onClick={() => onOpenDetail('recreation')}
         />
       </motion.div>
 
@@ -360,6 +364,7 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
         image="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800"
         title="Aurora Living"
         gridClass="col-span-1 lg:col-span-4"
+        onClick={() => onOpenDetail('aurora-living')}
       />
 
     </motion.div>

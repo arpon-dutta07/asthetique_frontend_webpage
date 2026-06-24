@@ -1,10 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-function ProjectCard({ image, title, gridClass = '' }) {
+function ProjectCard({ image, title, gridClass = '', onClick }) {
   return (
     <motion.div
-      className={`relative rounded-[2rem] overflow-hidden border border-white/5 bg-brand-dark group h-full flex flex-col justify-end p-6 min-h-[220px] md:min-h-[240px] interactive-card ${gridClass}`}
+      onClick={onClick}
+      className={`relative rounded-[2rem] overflow-hidden border border-white/5 bg-brand-dark group h-full flex flex-col justify-end p-6 min-h-[220px] md:min-h-[240px] interactive-card cursor-pointer ${gridClass}`}
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
