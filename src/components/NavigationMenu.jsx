@@ -1,0 +1,160 @@
+import React from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const MENU_ITEMS = [
+  { id: 'services', label: 'Services', num: '01' },
+  { id: 'process', label: 'Creative Journey', num: '02' },
+  { id: 'gallery', label: 'Editorial Archive', num: '03' },
+  { id: 'testimonials', label: 'Client Voices', num: '04' },
+  { id: 'contact', label: 'Collaborate', num: '05' }
+]
+
+function NavigationMenu({ isOpen, onClose }) {
+  const handleLinkClick = (e, targetId) => {
+    e.preventDefault()
+    onClose()
+    
+    // Smooth scroll after menu animations complete
+    setTimeout(() => {
+      const el = document.getElementById(targetId)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 450)
+  }
+
+  // Animation variants
+  const menuVariants = {
+    hidden: { 
+      opacity: 0,
+      clipPath: 'circle(40px at 95% 5%)',
+      transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+    },
+    visible: { 
+      opacity: 1,
+      clipPath: 'circle(150% at 95% 5%)',
+      transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] }
+    },
+    exit: { 
+      opacity: 0,
+      clipPath: 'circle(40px at 95% 5%)',
+      transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+    }
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.15
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        staggerChildren: 0.04,
+        staggerDirection: -1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { y: 35, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { type: 'spring', stiffness: 100, damping: 15 }
+    },
+    exit: { 
+      y: -15, 
+      opacity: 0,
+      transition: { duration: 0.2 }
+    }
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 bg-[#161513] text-[#F2F0EB] flex flex-col justify-between p-8 md:p-12 lg:p-16 select-none"
+          variants={menuVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          {/* Subtle Radial Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(242,240,235,0.04)_0%,transparent_70%)] pointer-events-none" />
+
+          {/* Header */}
+          <div className="flex items-center justify-between w-full z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-[#22201C] border border-white/5 rounded-xl flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-[#F2F0EB]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
+                </svg>
+              </div>
+              <span className="font-bold tracking-widest text-xs uppercase text-[#F2F0EB]">
+                AESTHETIQUE
+              </span>
+            </div>
+            
+            {/* Close Button */}
+            <motion.button 
+              onClick={onClose}
+              className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] transition-all duration-300 outline-none focus:outline-none"
+              whileHover={{ rotate: 90, scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </motion.button>
+          </div>
+
+          {/* Links Middle Area */}
+          <motion.div 
+            className="flex flex-col text-left max-w-2xl mx-auto md:mx-0 w-full"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {MENU_ITEMS.map((item) => (
+              <motion.div 
+                key={item.id} 
+                variants={itemVariants}
+                className="overflow-hidden py-3"
+              >
+                <a 
+                  href={`#${item.id}`}
+                  onClick={(e) => handleLinkClick(e, item.id)}
+                  className="group inline-flex items-baseline gap-4 md:gap-8 text-4xl md:text-6xl lg:text-7xl font-serif text-[#C5C0B8] hover:text-[#F2F0EB] transition-colors duration-300"
+                >
+                  <span className="font-sans font-bold text-xs md:text-sm tracking-widest text-[#F2F0EB]/30 group-hover:text-[#F2F0EB] transition-colors duration-300">
+                    {item.num}
+                  </span>
+                  <span className="group-hover:italic group-hover:translate-x-3 transition-all duration-300 inline-block origin-left">
+                    {item.label}
+                  </span>
+                </a>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Footer Direct Details Info */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-white/5 pt-8 w-full z-10 text-[9px] md:text-xs tracking-widest uppercase font-sans text-[#C5C0B8]/60">
+            <div className="flex flex-wrap gap-x-8 gap-y-2">
+              <a href="mailto:hello@aesthetique.com" className="hover:text-[#F2F0EB] transition-colors duration-300">hello@aesthetique.com</a>
+              <a href="tel:+12125550192" className="hover:text-[#F2F0EB] transition-colors duration-300">+1 (212) 555-0192</a>
+            </div>
+            <p>© {new Date().getFullYear()} AESTHETIQUE STUDIO</p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+export default NavigationMenu

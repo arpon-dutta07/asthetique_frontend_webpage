@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HeroBento from './components/HeroBento'
 import BentoSections from './components/BentoSections'
+import NavigationMenu from './components/NavigationMenu'
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <div className="relative min-h-screen bg-brand-black text-brand-white selection:bg-brand-gray/30 selection:text-brand-white overflow-x-hidden font-sans">
       
@@ -20,11 +23,12 @@ function App() {
       <main className="relative z-10 w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col items-center justify-start">
         {/* Responsive Bento Grid */}
         <div className="w-full max-w-none flex flex-col gap-6">
-          <HeroBento />
+          <HeroBento onOpenMenu={() => setIsMenuOpen(true)} />
           <BentoSections />
         </div>
       </main>
-      
+
+      <NavigationMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </div>
   )
 }

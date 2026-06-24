@@ -4,7 +4,7 @@ import RotatingBadge from './RotatingBadge'
 import ProjectCard from './ProjectCard'
 import CategoryCard from './CategoryCard'
 
-function HeroBento() {
+function HeroBento({ onOpenMenu }) {
   const containerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -165,6 +165,7 @@ function HeroBento() {
           }`}
         >
           <button 
+            onClick={onOpenMenu}
             aria-label="Menu"
             className={`bg-[#22201C] border border-white/5 rounded-full flex items-center justify-center text-[#F2F0EB] transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] ${
               isMobile ? 'w-8 h-8' : 'w-12 h-12'

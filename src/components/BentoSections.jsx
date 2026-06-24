@@ -149,7 +149,7 @@ function BentoSections() {
     <div className="flex flex-col gap-32 w-full mt-24 pb-20">
       
       {/* ----------------- SERVICES SECTION (Interactive Split Screen Layout) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
+      <section id="services" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
             01 // SERVICES SHOWCASE
@@ -267,7 +267,7 @@ function BentoSections() {
 
 
       {/* ----------------- PROCESS SECTION (Interactive Progress Timeline with Viewport Trigger) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
+      <section id="process" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
             02 // CREATIVE JOURNEY
@@ -326,7 +326,7 @@ function BentoSections() {
 
 
       {/* ----------------- PROJECTS GALLERY SECTION (Art-Book Offset Layout) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
+      <section id="gallery" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
             03 // EDITORIAL ARCHIVE
@@ -450,7 +450,7 @@ function BentoSections() {
 
 
       {/* ----------------- TESTIMONIALS SECTION (Cinematic Quote Slider with Progress Bar) ----------------- */}
-      <section className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
+      <section id="testimonials" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left mb-2">
           04 // CLIENT VOICES
         </h2>
@@ -524,7 +524,7 @@ function BentoSections() {
 
 
       {/* ----------------- CONTACT & FOOTER SECTION (Split Underline Input Form) ----------------- */}
-      <section className="flex flex-col gap-12 w-full border-t border-black/5 pt-20">
+      <section id="contact" className="flex flex-col gap-12 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
           05 // COLLABORATE
         </h2>
