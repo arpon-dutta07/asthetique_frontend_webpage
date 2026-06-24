@@ -221,14 +221,11 @@ function BentoSections({ onOpenDetail }) {
           </span>
         </div>
 
-        <div className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[4rem] flex flex-col lg:flex-row min-h-[720px] border border-black/5 dark:border-white/5 bg-brand-dark/20 shadow-2xl">
+        <div className="relative flex flex-col lg:flex-row min-h-[720px] w-full">
           {/* Left Column: Vertical sliding timeline */}
           <div className="w-full lg:w-[45%] min-h-[380px] md:min-h-[480px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-8 md:px-16 bg-transparent py-8">
-            {/* Soft gradients at top and bottom of list */}
-            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-black via-brand-black/90 to-transparent z-20 pointer-events-none" />
             
-            <div className="relative w-full h-[440px] flex items-center justify-start z-10">
+            <div className="relative w-full h-[440px] z-10">
               {SERVICES_DATA.map((service, index) => {
                 const isActive = index === currentIndex;
                 const distance = index - currentIndex;
@@ -240,9 +237,10 @@ function BentoSections({ onOpenDetail }) {
                     style={{
                       height: 96,
                       width: "100%",
+                      top: "50%",
                     }}
                     animate={{
-                      y: wrappedDistance * 98,
+                      y: -48 + (wrappedDistance * 98),
                       opacity: 1 - Math.abs(wrappedDistance) * 0.35,
                     }}
                     transition={{
@@ -290,7 +288,7 @@ function BentoSections({ onOpenDetail }) {
           </div>
 
           {/* Right Column: Stacked Cards */}
-          <div className="flex-1 min-h-[580px] lg:h-full relative flex items-center justify-center py-16 px-6 md:px-16 overflow-hidden border-t lg:border-t-0 lg:border-l border-black/5 dark:border-white/5 bg-brand-dark/10">
+          <div className="flex-1 min-h-[580px] lg:h-full relative flex items-center justify-center py-16 px-6 md:px-16 overflow-hidden">
             <div className="relative w-full max-w-[500px] aspect-[4/5] flex items-center justify-center h-[90%] lg:h-[95%]">
               {SERVICES_DATA.map((service, index) => {
                 const status = getCardStatus(index);
