@@ -30,11 +30,26 @@ body {
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark-theme {
+.dark-theme, .dark {
   --color-brand-black: #0E0E0E;
   --color-brand-dark: #1A1A1A;
   --color-brand-white: #F2F0EB;
   --color-brand-gray: #C5C0B8;
+}
+
+/* View Transition Theme Toggle Animations */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
 }
 
 /* Slow Spin Animation for rotating badge */

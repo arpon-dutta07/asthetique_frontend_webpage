@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { flushSync } from 'react-dom'
 import HeroBento from './components/HeroBento'
 import BentoSections from './components/BentoSections'
 import NavigationMenu from './components/NavigationMenu'
@@ -87,10 +88,79 @@ const DETAIL_DATA = {
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDarkTheme, setIsDarkTheme] = useState(true)
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        return savedTheme === "dark";
+      }
+    }
+    return true;
+  })
   const [activeDetail, setActiveDetail] = useState(null)
 
-  const toggleTheme = () => setIsDarkTheme(prev => !prev)
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkTheme);
+    document.documentElement.classList.toggle("dark-theme", isDarkTheme);
+  }, [isDarkTheme])
+
+  const toggleTheme = (event) => {
+    if (!document.startViewTransition) {
+      setIsDarkTheme(prev => {
+        const next = !prev;
+        localStorage.setItem("theme", next ? "dark" : "light");
+        return next;
+      });
+      return;
+    }
+
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+
+    // Check if toggled by an event click
+    if (event && event.clientX !== undefined && event.clientY !== undefined) {
+      centerX = event.clientX;
+      centerY = event.clientY;
+    } else {
+      const button = document.querySelector('[aria-label="Toggle Theme"]');
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        centerX = rect.left + rect.width / 2;
+        centerY = rect.top + rect.height / 2;
+      }
+    }
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => {
+        setIsDarkTheme(prev => {
+          const next = !prev;
+          localStorage.setItem("theme", next ? "dark" : "light");
+          return next;
+        });
+      });
+    });
+
+    transition.ready.then(() => {
+      const maxDistance = Math.hypot(
+        Math.max(centerX, window.innerWidth - centerX),
+        Math.max(centerY, window.innerHeight - centerY)
+      );
+
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${centerX}px ${centerY}px)`,
+            `circle(${maxDistance}px at ${centerX}px ${centerY}px)`,
+          ],
+        },
+        {
+          duration: 700,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
+  };
   const handleOpenDetail = (key) => setActiveDetail(DETAIL_DATA[key])
 
   return (
