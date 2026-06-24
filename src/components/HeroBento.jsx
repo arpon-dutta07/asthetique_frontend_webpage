@@ -4,7 +4,7 @@ import RotatingBadge from './RotatingBadge'
 import ProjectCard from './ProjectCard'
 import CategoryCard from './CategoryCard'
 
-function HeroBento({ onOpenMenu }) {
+function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
   const containerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -135,6 +135,28 @@ function HeroBento({ onOpenMenu }) {
         className="col-span-1 md:col-span-2 lg:col-span-12 relative h-[380px] md:h-[460px] lg:h-[500px] overflow-visible z-20 group"
         variants={cardVariants}
       >
+        {/* Theme Toggle Button */}
+        <motion.button
+          onClick={toggleTheme}
+          className={`absolute z-30 flex items-center justify-center rounded-full border transition-all duration-300 ${
+            isMobile 
+              ? 'top-4 right-20 w-12 h-12 bg-[#161513]/10 border-black/5 text-[#161513]' 
+              : 'top-4 right-24 w-12 h-12 bg-brand-dark border-black/5 text-brand-white hover:bg-brand-white hover:text-brand-black'
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle Theme"
+        >
+          {isDarkTheme ? (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </motion.button>
         {/* Logo Card (Positions absolutely in the top-left pocket - Dark charcoal) */}
         <div 
           className={`absolute bg-[#161513] border border-black/5 flex items-center justify-center transition-all duration-300 z-30 ${

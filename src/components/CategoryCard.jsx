@@ -16,7 +16,7 @@ function CategoryCard({ image, label, gridClass = '' }) {
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         {/* Faded/Dark Overlay (lightens on hover) */}
-        <div className="absolute inset-0 bg-brand-black/70 transition-colors duration-500 group-hover:bg-brand-black/45 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/70 transition-colors duration-500 group-hover:bg-black/45 pointer-events-none" />
       </div>
 
       {/* Centered Category Text */}

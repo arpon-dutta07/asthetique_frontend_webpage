@@ -231,7 +231,7 @@ function BentoSections() {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/20 via-transparent to-transparent pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none z-10" />
             </div>
 
             {/* Dynamic Text Details */}
@@ -357,7 +357,7 @@ function BentoSections() {
                   alt={GALLERY_DATA[0].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 {/* Text letters breathe/expand on card hover */}
@@ -382,7 +382,7 @@ function BentoSections() {
                   alt={GALLERY_DATA[2].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
@@ -410,7 +410,7 @@ function BentoSections() {
                   alt={GALLERY_DATA[1].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
@@ -434,7 +434,7 @@ function BentoSections() {
                   alt={GALLERY_DATA[3].title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
                 />
-                <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
