@@ -228,7 +228,7 @@ function HeroBento() {
       >
         <div className="flex flex-col gap-5">
           {/* Main Heading */}
-          <h1 className="text-2xl md:text-3xl lg:text-[2.25rem] font-bold text-brand-white tracking-tight leading-[1.1] font-sans text-left">
+          <h1 className="text-3xl md:text-4xl lg:text-[2.65rem] font-medium text-brand-white tracking-normal leading-[1.15] font-serif text-left">
             Designing spaces <br />
             that feel timeless
           </h1>

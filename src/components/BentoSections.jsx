@@ -188,7 +188,7 @@ function BentoSections() {
                         {service.category}
                       </span>
                     </div>
-                    <h3 className={`text-xl md:text-3xl font-bold tracking-tight transition-colors duration-500 ${
+                    <h3 className={`text-xl md:text-3xl font-medium tracking-normal font-serif transition-colors duration-500 ${
                       activeService === index ? 'text-brand-white' : 'text-brand-white/40'
                     }`}>
                       {service.title}
@@ -361,7 +361,7 @@ function BentoSections() {
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
                 {/* Text letters breathe/expand on card hover */}
-                <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
+                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
                   {GALLERY_DATA[0].title}
                 </h3>
                 <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[0].location}</span>
@@ -385,7 +385,7 @@ function BentoSections() {
                 <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
+                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
                   {GALLERY_DATA[2].title}
                 </h3>
                 <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[2].location}</span>
@@ -413,7 +413,7 @@ function BentoSections() {
                 <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
+                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
                   {GALLERY_DATA[1].title}
                 </h3>
                 <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[1].location}</span>
@@ -437,7 +437,7 @@ function BentoSections() {
                 <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-brand-black/0 transition-colors duration-700 pointer-events-none z-10" />
               </div>
               <div className="flex justify-between items-center px-4 pt-1">
-                <h3 className="text-lg font-bold text-brand-white tracking-normal group-hover:tracking-wider transition-all duration-500">
+                <h3 className="text-lg md:text-xl font-medium text-brand-white font-serif tracking-normal group-hover:tracking-wide transition-all duration-500">
                   {GALLERY_DATA[3].title}
                 </h3>
                 <span className="text-[9px] font-mono tracking-widest text-brand-gray/50 uppercase">{GALLERY_DATA[3].location}</span>
@@ -534,7 +534,7 @@ function BentoSections() {
           {/* Left Details column */}
           <div className="lg:col-span-5 flex flex-col gap-12 relative">
             <div className="flex flex-col gap-5 z-10">
-              <h3 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-brand-white leading-[1.05]">
+              <h3 className="text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-brand-white leading-[1.1] font-serif">
                 Let's construct <br />something timeless
               </h3>
               <p className="text-brand-gray text-sm md:text-base font-light leading-relaxed max-w-sm">

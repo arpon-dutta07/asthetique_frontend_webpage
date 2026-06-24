@@ -1,28 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Italiana&display=swap');
 
 @import "tailwindcss";
 
 @theme {
-  --color-brand-black: #0E0E0E;
-  --color-brand-dark: #1A1A1A;
-  --color-brand-white: #F2F0EB;
-  --color-brand-gray: #C5C0B8;
+  --color-brand-black: #F2F0EB;
+  --color-brand-dark: #FFFFFF;
+  --color-brand-white: #161513;
+  --color-brand-gray: #5E5B55;
   
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-display: 'Italiana', 'Playfair Display', serif;
 }
 
 /* Base custom styles */
 html {
   scroll-behavior: smooth;
-  background-color: #0E0E0E;
+  background-color: #F2F0EB;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #0E0E0E;
-  color: #F2F0EB;
+  background-color: #F2F0EB;
+  color: #161513;
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   overflow-x: hidden;
 }
