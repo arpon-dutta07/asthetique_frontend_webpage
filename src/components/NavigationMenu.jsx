@@ -23,7 +23,7 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
     }, 450)
   }
 
-  // Animation variants
+  // Animation variants (semi-transparent backgrounds for glassmorphism)
   const menuVariants = {
     hidden: { 
       opacity: 0,
@@ -78,24 +78,36 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 bg-[#161513] text-[#F2F0EB] flex flex-col justify-between p-8 md:p-12 lg:p-16 select-none"
+          className={`fixed inset-0 z-50 flex flex-col justify-between p-8 md:p-12 lg:p-16 select-none backdrop-blur-2xl transition-colors duration-500 ${
+            isDarkTheme 
+              ? 'bg-[#161513]/85 text-[#F2F0EB]' 
+              : 'bg-[#F2F0EB]/85 text-[#161513]'
+          }`}
           variants={menuVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
           {/* Subtle Radial Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(242,240,235,0.04)_0%,transparent_70%)] pointer-events-none" />
+          <div className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${
+            isDarkTheme 
+              ? 'bg-[radial-gradient(circle_at_top_right,rgba(242,240,235,0.04)_0%,transparent_70%)]' 
+              : 'bg-[radial-gradient(circle_at_top_right,rgba(22,21,19,0.04)_0%,transparent_70%)]'
+          }`} />
 
           {/* Header */}
           <div className="flex items-center justify-between w-full z-10">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-[#22201C] border border-white/5 rounded-xl flex items-center justify-center">
-                <svg className="w-3.5 h-3.5 text-[#F2F0EB]" fill="currentColor" viewBox="0 0 24 24">
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors duration-500 ${
+                isDarkTheme ? 'bg-[#22201C] border border-white/5 text-[#F2F0EB]' : 'bg-[#E5E2DA] border border-black/5 text-[#161513]'
+              }`}>
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
                 </svg>
               </div>
-              <span className="font-bold tracking-widest text-xs uppercase text-[#F2F0EB]">
+              <span className={`font-bold tracking-widest text-xs uppercase transition-colors duration-500 ${
+                isDarkTheme ? 'text-[#F2F0EB]' : 'text-[#161513]'
+              }`}>
                 AESTHETIQUE
               </span>
             </div>
@@ -104,7 +116,11 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
               {/* Theme Toggle */}
               <motion.button 
                 onClick={toggleTheme}
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] transition-all duration-300 outline-none focus:outline-none"
+                className={`w-12 h-12 rounded-full border transition-all duration-300 outline-none focus:outline-none flex items-center justify-center ${
+                  isDarkTheme 
+                    ? 'border-white/10 text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB]' 
+                    : 'border-black/10 text-[#161513] hover:bg-[#161513] hover:text-[#F2F0EB] hover:border-[#161513]'
+                }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Toggle Theme"
@@ -123,7 +139,11 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
               {/* Close Button */}
               <motion.button 
                 onClick={onClose}
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] transition-all duration-300 outline-none focus:outline-none"
+                className={`w-12 h-12 rounded-full border transition-all duration-300 outline-none focus:outline-none flex items-center justify-center ${
+                  isDarkTheme 
+                    ? 'border-white/10 text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB]' 
+                    : 'border-black/10 text-[#161513] hover:bg-[#161513] hover:text-[#F2F0EB] hover:border-[#161513]'
+                }`}
                 whileHover={{ rotate: 90, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -151,9 +171,13 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
                 <a 
                   href={`#${item.id}`}
                   onClick={(e) => handleLinkClick(e, item.id)}
-                  className="group inline-flex items-baseline gap-4 md:gap-8 text-4xl md:text-6xl lg:text-7xl font-serif text-[#C5C0B8] hover:text-[#F2F0EB] transition-colors duration-300"
+                  className={`group inline-flex items-baseline gap-4 md:gap-8 text-4xl md:text-6xl lg:text-7xl font-serif transition-colors duration-300 ${
+                    isDarkTheme ? 'text-[#C5C0B8] hover:text-[#F2F0EB]' : 'text-[#5E5B55] hover:text-[#161513]'
+                  }`}
                 >
-                  <span className="font-sans font-bold text-xs md:text-sm tracking-widest text-[#F2F0EB]/30 group-hover:text-[#F2F0EB] transition-colors duration-300">
+                  <span className={`font-sans font-bold text-xs md:text-sm tracking-widest transition-colors duration-300 ${
+                    isDarkTheme ? 'text-[#F2F0EB]/30 group-hover:text-[#F2F0EB]' : 'text-[#161513]/30 group-hover:text-[#161513]'
+                  }`}>
                     {item.num}
                   </span>
                   <span className="group-hover:italic group-hover:translate-x-3 transition-all duration-300 inline-block origin-left">
@@ -165,10 +189,22 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
           </motion.div>
 
           {/* Footer Direct Details Info */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-white/5 pt-8 w-full z-10 text-[9px] md:text-xs tracking-widest uppercase font-sans text-[#C5C0B8]/60">
+          <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-8 w-full z-10 text-[9px] md:text-xs tracking-widest uppercase font-sans transition-colors duration-500 ${
+            isDarkTheme ? 'border-t border-white/5 text-[#C5C0B8]/60' : 'border-t border-black/5 text-[#5E5B55]/70'
+          }`}>
             <div className="flex flex-wrap gap-x-8 gap-y-2">
-              <a href="mailto:hello@aesthetique.com" className="hover:text-[#F2F0EB] transition-colors duration-300">hello@aesthetique.com</a>
-              <a href="tel:+12125550192" className="hover:text-[#F2F0EB] transition-colors duration-300">+1 (212) 555-0192</a>
+              <a 
+                href="mailto:hello@aesthetique.com" 
+                className={`transition-colors duration-300 ${isDarkTheme ? 'hover:text-[#F2F0EB]' : 'hover:text-[#161513]'}`}
+              >
+                hello@aesthetique.com
+              </a>
+              <a 
+                href="tel:+12125550192" 
+                className={`transition-colors duration-300 ${isDarkTheme ? 'hover:text-[#F2F0EB]' : 'hover:text-[#161513]'}`}
+              >
+                +1 (212) 555-0192
+              </a>
             </div>
             <p>© {new Date().getFullYear()} AESTHETIQUE STUDIO</p>
           </div>

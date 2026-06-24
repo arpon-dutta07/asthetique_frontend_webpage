@@ -141,7 +141,7 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
           className={`absolute z-30 flex items-center justify-center rounded-full border transition-all duration-300 ${
             isMobile 
               ? 'top-4 right-20 w-12 h-12 bg-[#161513]/10 border-black/5 text-[#161513]' 
-              : 'top-4 right-24 w-12 h-12 bg-brand-dark border-black/5 text-brand-white hover:bg-brand-white hover:text-brand-black'
+              : 'top-4 right-28 w-12 h-12 bg-brand-dark border-black/5 text-brand-white hover:bg-brand-white hover:text-brand-black'
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -157,19 +157,23 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
             </svg>
           )}
         </motion.button>
-        {/* Logo Card (Positions absolutely in the top-left pocket - Dark charcoal) */}
+        {/* Logo Card (Positions absolutely in the top-left pocket) */}
         <div 
-          className={`absolute bg-[#161513] border border-black/5 flex items-center justify-center transition-all duration-300 z-30 ${
+          className={`absolute flex items-center justify-center transition-all duration-500 border z-30 ${
+            isDarkTheme ? 'bg-[#161513] border-white/5' : 'bg-brand-dark border-black/5'
+          } ${
             isMobile 
               ? 'top-4 left-4 w-12 h-12 rounded-xl' 
               : 'top-0 left-0 w-20 h-20 rounded-3xl'
           }`}
         >
-          <div className={`bg-[#22201C] border border-white/5 flex items-center justify-center shadow-inner ${
+          <div className={`flex items-center justify-center shadow-inner transition-colors duration-500 border ${
+            isDarkTheme ? 'bg-[#22201C] border-white/5 text-[#F2F0EB]' : 'bg-brand-black border-black/5 text-[#161513]'
+          } ${
             isMobile ? 'w-8 h-8 rounded-lg' : 'w-12 h-12 rounded-xl'
           }`}>
             <svg 
-              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-[#F2F0EB]`} 
+              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} currentColor`} 
               fill="currentColor" 
               viewBox="0 0 24 24"
             >
@@ -178,9 +182,11 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
           </div>
         </div>
 
-        {/* Hamburger Menu (Positions absolutely in the top-right pocket - Dark charcoal) */}
+        {/* Hamburger Menu (Positions absolutely in the top-right pocket) */}
         <div 
-          className={`absolute bg-[#161513] border border-black/5 flex items-center justify-center transition-all duration-300 z-30 ${
+          className={`absolute flex items-center justify-center transition-all duration-500 border z-30 ${
+            isDarkTheme ? 'bg-[#161513] border-white/5' : 'bg-brand-dark border-black/5'
+          } ${
             isMobile 
               ? 'top-4 right-4 w-12 h-12 rounded-xl' 
               : 'top-0 right-0 w-20 h-20 rounded-3xl'
@@ -189,7 +195,11 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme }) {
           <button 
             onClick={onOpenMenu}
             aria-label="Menu"
-            className={`bg-[#22201C] border border-white/5 rounded-full flex items-center justify-center text-[#F2F0EB] transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB] ${
+            className={`rounded-full flex items-center justify-center transition-all duration-300 border ${
+              isDarkTheme 
+                ? 'bg-[#22201C] border-white/5 text-[#F2F0EB] hover:bg-[#F2F0EB] hover:text-[#161513] hover:border-[#F2F0EB]' 
+                : 'bg-brand-black border-black/5 text-[#161513] hover:bg-[#161513] hover:text-[#F2F0EB] hover:border-[#161513]'
+            } ${
               isMobile ? 'w-8 h-8' : 'w-12 h-12'
             }`}
           >
