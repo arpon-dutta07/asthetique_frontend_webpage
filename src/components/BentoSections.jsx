@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
+import ClientFeedback from './ui/testimonial'
 
 const SERVICES_DATA = [
   {
@@ -86,23 +87,7 @@ const GALLERY_DATA = [
   }
 ]
 
-const TESTIMONIALS_DATA = [
-  {
-    quote: "AESTHETIQUE transformed our home into a serene sanctuary. Their detailed custom millwork planning and execution are completely unmatched. They listen carefully and deliver pure artistic elegance.",
-    author: "Sarah & David K.",
-    project: "Casa Noir Residence"
-  },
-  {
-    quote: "They understood our brand values instantly. Our boutique studio space has drastically improved team collaboration, client impressions, and day-to-day creative energy.",
-    author: "Marcus V.",
-    project: "CEO, Verde Studio"
-  },
-  {
-    quote: "A masterclass in spatial choreography. The lighting plans alone completely reinvent the atmosphere of our penthouse from morning to night. Highly recommended.",
-    author: "Elena R.",
-    project: "Aurora Living"
-  }
-]
+
 
 const wrap = (min, max, v) => {
   const rangeSize = max - min;
@@ -142,7 +127,6 @@ function ServiceIcon({ iconId, isActive }) {
 function BentoSections({ onOpenDetail }) {
   const [step, setStep] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [expandedProject, setExpandedProject] = useState(2) // Default to index 2 (Japandi Haven)
@@ -197,13 +181,7 @@ function BentoSections({ onOpenDetail }) {
     }
   }
 
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS_DATA.length)
-  }
 
-  const prevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + TESTIMONIALS_DATA.length) % TESTIMONIALS_DATA.length)
-  }
 
   // Common Viewport Motion Setup
   const scrollRevealVariants = {
@@ -557,77 +535,12 @@ function BentoSections({ onOpenDetail }) {
       </section>
 
 
-      {/* ----------------- TESTIMONIALS SECTION (Cinematic Quote Slider with Progress Bar) ----------------- */}
+      {/* ----------------- TESTIMONIALS SECTION (Client Feedback Grid) ----------------- */}
       <section id="testimonials" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left mb-2">
           04 // CLIENT VOICES
         </h2>
-
-        {/* Carousel Quotes */}
-        <div className="relative min-h-[340px] flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-6 w-full overflow-hidden">
-          
-          {/* Subtle Watermark Quote Icon in background */}
-          <span className="font-serif text-[18rem] text-black/[0.015] absolute -top-16 left-6 select-none pointer-events-none">
-            “
-          </span>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTestimonial}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col gap-8 z-10"
-            >
-              {/* Quote Body */}
-              <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif italic text-brand-white leading-relaxed font-light">
-                "{TESTIMONIALS_DATA[activeTestimonial].quote}"
-              </blockquote>
-
-              {/* Author & Project info */}
-              <div className="flex flex-col items-center gap-1.5">
-                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-brand-white font-sans">
-                  {TESTIMONIALS_DATA[activeTestimonial].author}
-                </span>
-                <span className="text-[10px] md:text-xs text-brand-gray/50 font-light tracking-wide">
-                  {TESTIMONIALS_DATA[activeTestimonial].project}
-                </span>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Left/Right Control Arrows + Horizontal Progress Track */}
-          <div className="flex items-center gap-8 mt-14 z-10">
-            <button 
-              onClick={prevTestimonial}
-              aria-label="Previous Testimonial"
-              className="w-12 h-12 rounded-full border border-black/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-            </button>
-            
-            {/* Custom slider progress line */}
-            <div className="w-24 bg-black/10 h-[2px] rounded-full overflow-hidden relative">
-              <div 
-                className="h-full bg-brand-white transition-all duration-500 ease-out"
-                style={{ width: `${((activeTestimonial + 1) / TESTIMONIALS_DATA.length) * 100}%` }}
-              />
-            </div>
-
-            <button 
-              onClick={nextTestimonial}
-              aria-label="Next Testimonial"
-              className="w-12 h-12 rounded-full border border-black/10 hover:border-brand-white flex items-center justify-center text-brand-gray hover:text-brand-white transition-all duration-300 outline-none focus:outline-none"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            </button>
-          </div>
-        </div>
+        <ClientFeedback />
       </section>
 
 
