@@ -163,6 +163,8 @@ function BentoSections({ onOpenDetail }) {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [expandedProject, setExpandedProject] = useState(2) // Default to index 2 (Japandi Haven)
   const [isMobile, setIsMobile] = useState(false)
+  const timelineRef = useRef(null)
+  const isTimelineInView = useInView(timelineRef, { once: true, amount: 0.15 })
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
@@ -226,6 +228,29 @@ function BentoSections({ onOpenDetail }) {
         stiffness: 60,
         damping: 18,
         duration: 0.8
+      }
+    }
+  }
+
+  const processCardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 60, 
+      rotateX: 18, 
+      rotateY: -6,
+      filter: "blur(6px)"
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      rotateX: 0,
+      rotateY: 0,
+      filter: "blur(0px)",
+      transition: { 
+        type: "spring",
+        stiffness: 70,
+        damping: 14,
+        duration: 0.85
       }
     }
   }
@@ -488,20 +513,25 @@ function BentoSections({ onOpenDetail }) {
         </div>
 
         {/* Timeline Stagger Container */}
-        <div className="relative w-full py-6">
+        <div ref={timelineRef} className="relative w-full py-6">
           
-          {/* Horizontal connecting rule on desktop */}
-          <div className="absolute top-[31px] left-8 right-8 h-[1.5px] bg-[#C9B99A]/20 z-0 hidden lg:block" />
+          {/* Horizontal connecting line on desktop (draws itself when in view!) */}
+          <motion.div 
+            className="absolute top-[58px] left-12 right-12 h-[2px] bg-[#C9B99A]/30 origin-left z-0 hidden lg:block"
+            initial={{ scaleX: 0 }}
+            animate={isTimelineInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
 
           <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 text-left [perspective:1000px] relative z-10"
+            className="grid grid-cols-1 lg:grid-cols-5 gap-8 text-left [perspective:1200px] relative z-10"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             variants={{
               visible: {
                 transition: {
-                  staggerChildren: 0.12
+                  staggerChildren: 0.15
                 }
               }
             }}
@@ -509,35 +539,38 @@ function BentoSections({ onOpenDetail }) {
             {PROCESS_DATA.map((proc, index) => (
               <motion.div 
                 key={proc.step} 
-                className="flex flex-col gap-6 relative group"
-                variants={scrollRevealVariants}
+                className="relative flex flex-col gap-6 p-6 rounded-[2rem] bg-brand-white/5 border border-black/5 dark:border-white/5 hover:border-[#C9B99A]/30 hover:bg-brand-white/10 transition-all duration-500 ease-out group overflow-hidden cursor-pointer"
+                variants={processCardVariants}
+                whileHover={{
+                  y: -12,
+                  rotateX: 3,
+                  rotateY: -4,
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.06)"
+                }}
               >
+                {/* Giant Parallax Background Step Number */}
+                <span className="absolute bottom-2 right-4 font-display text-[7rem] font-bold text-brand-white/[0.03] group-hover:text-[#C9B99A]/[0.08] group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-700 pointer-events-none select-none">
+                  {proc.step}
+                </span>
+
                 {/* Connecting vertical line on mobile */}
-                <div className="absolute left-[11px] top-6 bottom-0 w-[1.5px] bg-[#C9B99A]/15 z-0 lg:hidden group-last:hidden" />
+                <div className="absolute left-[33px] top-[50px] bottom-0 w-[1.5px] bg-[#C9B99A]/15 z-0 lg:hidden group-last:hidden" />
 
                 {/* Header Row: Dot & Step badge */}
-                <div className="flex items-center gap-4 relative z-10">
+                <div className="flex items-center gap-3 relative z-10">
                   {/* Circle Dot Marker */}
-                  <motion.div
-                    className="w-[24px] h-[24px] rounded-full border-2 border-[#C9B99A] bg-brand-black flex items-center justify-center transition-colors duration-500 z-10 cursor-pointer"
-                    whileHover={{ 
-                      scale: 1.35, 
-                      backgroundColor: "#C9B99A",
-                      borderColor: "#C9B99A"
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    <div className="w-[6px] h-[6px] rounded-full bg-[#C9B99A] group-hover:bg-brand-black transition-colors duration-300" />
-                  </motion.div>
+                  <div className="w-[18px] h-[18px] rounded-full border-2 border-[#C9B99A] bg-transparent flex items-center justify-center transition-all duration-500 z-10 group-hover:scale-125 group-hover:bg-[#C9B99A] group-hover:shadow-[0_0_12px_#C9B99A]">
+                    <div className="w-[4px] h-[4px] rounded-full bg-[#C9B99A] group-hover:bg-brand-black transition-colors duration-300" />
+                  </div>
 
                   {/* Step Code */}
-                  <span className="text-[11px] uppercase tracking-[0.15em] text-[#C9B99A] font-mono font-bold">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#C9B99A] font-mono font-bold">
                     STEP {proc.step}
                   </span>
                 </div>
 
                 {/* Card Content */}
-                <div className="flex flex-col gap-3 pt-1 pl-10 lg:pl-0 text-left">
+                <div className="flex flex-col gap-2.5 relative z-10 text-left">
                   <h4 className="text-base font-semibold tracking-wide text-brand-white uppercase font-sans">
                     {proc.phase}
                   </h4>
