@@ -72,6 +72,29 @@ function Footer() {
     })
   }
 
+  // Stagger blur-reveal for the large branding letters
+  const letterRevealVariants = {
+    hidden: {
+      opacity: 0,
+      y: 35,
+      filter: "blur(12px)",
+      scale: 0.9
+    },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      scale: 1,
+      transition: {
+        delay: 0.2 + i * 0.04,
+        duration: 0.6,
+        type: "spring",
+        stiffness: 140,
+        damping: 18
+      }
+    })
+  }
+
   return (
     <footer className="footer-reveal-container w-full text-brand-white bg-brand-black flex flex-col justify-between overflow-hidden p-4 lg:p-6 lg:pb-3 max-w-none">
       
@@ -315,7 +338,12 @@ function Footer() {
             {brandName.split("").map((char, index) => (
               <motion.span
                 key={index}
-                className="inline-block text-transparent [-webkit-text-stroke:1.5px_rgba(22,21,19,0.72)] dark:[-webkit-text-stroke:1.2px_rgba(242,240,235,0.52)] cursor-pointer select-none"
+                custom={index}
+                variants={letterRevealVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.05 }}
+                className="inline-block text-brand-white/12 dark:text-brand-white/12 [-webkit-text-stroke:1.3px_rgba(22,21,19,0.55)] dark:[-webkit-text-stroke:1px_rgba(242,240,235,0.45)] cursor-pointer select-none"
                 whileHover={{
                   color: "var(--color-brand-white)",
                   scale: 1.15,
