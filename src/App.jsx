@@ -165,7 +165,7 @@ function App() {
   const handleOpenDetail = (key) => setActiveDetail(DETAIL_DATA[key])
 
   return (
-    <div className={`relative min-h-screen bg-brand-black text-brand-white selection:bg-brand-gray/30 selection:text-brand-white overflow-x-hidden font-sans transition-colors duration-500 ${isDarkTheme ? 'dark-theme' : ''}`}>
+    <div className={`relative min-h-screen bg-brand-black text-brand-white selection:bg-brand-gray/30 selection:text-brand-white font-sans transition-colors duration-500 ${isDarkTheme ? 'dark-theme' : ''}`}>
       
       {/* Ambient Blurred Background (Light/Dark editorial design) */}
       <div 

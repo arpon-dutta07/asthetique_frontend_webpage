@@ -1,6 +1,33 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue, useInView } from 'framer-motion'
 import ClientFeedback from './ui/testimonial'
+
+function AnimatedCounter({ value, duration = 1.5 }) {
+  const numericPart = parseInt(value, 10);
+  const suffix = value.replace(numericPart.toString(), '');
+  
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  
+  useEffect(() => {
+    if (!isInView) return;
+    
+    let startTime = null;
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      const easeProgress = 1 - (1 - progress) * (1 - progress);
+      setCount(Math.floor(easeProgress * numericPart));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [isInView, numericPart, duration]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 const SERVICES_DATA = [
   {
@@ -208,11 +235,15 @@ function BentoSections({ onOpenDetail }) {
       
       {/* ----------------- SERVICES SECTION (Carousel Showcase with 3D Stacked Cards) ----------------- */}
       <section id="services" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
-        <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-            01 // SERVICES SHOWCASE
-          </h2>
-          <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-6 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">01</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              SERVICES SHOWCASE
+            </h2>
+          </div>
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
             INTERACTIVE EXPERIENCE
           </span>
         </div>
@@ -380,64 +411,78 @@ function BentoSections({ onOpenDetail }) {
 
 
       {/* ----------------- SECTION 2 — STATS BAR ----------------- */}
-      <section className="w-full border-t border-b border-black/10 dark:border-white/10 bg-[#F7F5F0] dark:bg-[#161616]/90 py-12 px-6 md:px-8 select-none transition-colors duration-500 rounded-[2rem] shadow-sm">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
-          
-          {/* Stat 1 */}
-          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
-            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
-              84+
-            </span>
-            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
-              Projects completed
-            </span>
+      <section id="stats" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-2 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">02</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              STUDIO STATS
+            </h2>
           </div>
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
+            METRICS & INFLUENCE
+          </span>
+        </div>
 
-          {/* Stat 2 */}
-          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
-            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
-              14
-            </span>
-            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
-              Countries worked in
-            </span>
+        <div className="w-full border-t border-b border-black/10 dark:border-white/10 bg-[#F7F5F0] dark:bg-[#161616]/90 py-12 px-6 md:px-8 select-none transition-colors duration-500 rounded-[2rem] shadow-sm">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+            
+            {/* Stat 1 */}
+            <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+              <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+                <AnimatedCounter value="84+" />
+              </span>
+              <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+                Projects completed
+              </span>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+              <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+                <AnimatedCounter value="14" />
+              </span>
+              <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+                Countries worked in
+              </span>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+              <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+                <AnimatedCounter value="97%" />
+              </span>
+              <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+                Patrons return / refer
+              </span>
+            </div>
+
+            {/* Stat 4 */}
+            <div className="flex flex-col items-center justify-center text-center">
+              <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+                <AnimatedCounter value="8yr" />
+              </span>
+              <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+                Studio practice
+              </span>
+            </div>
+
           </div>
-
-          {/* Stat 3 */}
-          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
-            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
-              97%
-            </span>
-            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
-              Patrons return / refer
-            </span>
-          </div>
-
-          {/* Stat 4 */}
-          <div className="flex flex-col items-center justify-center text-center">
-            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
-              8yr
-            </span>
-            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
-              Studio practice
-            </span>
-          </div>
-
         </div>
       </section>
 
       {/* ----------------- SECTION 3 — PROCESS TIMELINE ----------------- */}
       <section id="process" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
-        <div className="flex justify-between items-end mb-4">
-          <div className="flex flex-col gap-1 text-left">
-            <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
-              03 // CREATIVE PROCESS
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-6 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">03</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              CREATIVE PROCESS
             </h2>
-            <h3 className="text-xl md:text-2xl font-serif tracking-wide text-brand-white uppercase mt-1">
-              Our Journey
-            </h3>
           </div>
-          <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
             5-STAGE PIPELINE
           </span>
         </div>
@@ -509,11 +554,15 @@ function BentoSections({ onOpenDetail }) {
 
       {/* ----------------- PROJECTS GALLERY SECTION (Expandable Stacking Accordion) ----------------- */}
       <section id="gallery" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
-        <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-            04 // EDITORIAL ARCHIVE
-          </h2>
-          <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-6 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">04</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              EDITORIAL ARCHIVE
+            </h2>
+          </div>
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
             ACCORDION PORTFOLIO
           </span>
         </div>
@@ -611,18 +660,36 @@ function BentoSections({ onOpenDetail }) {
 
       {/* ----------------- TESTIMONIALS SECTION (Client Feedback Grid) ----------------- */}
       <section id="testimonials" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
-        <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left mb-2">
-          05 // CLIENT VOICES
-        </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-6 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">05</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              CLIENT VOICES
+            </h2>
+          </div>
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
+            CLIENT FEEDBACK
+          </span>
+        </div>
         <ClientFeedback />
       </section>
 
 
       {/* ----------------- CONTACT & FOOTER SECTION (Split Underline Input Form) ----------------- */}
       <section id="contact" className="flex flex-col gap-12 w-full border-t border-black/5 pt-20">
-        <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-          06 // COLLABORATE
-        </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/10 dark:border-white/10 pb-6 mb-6 text-left">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-4xl md:text-5xl lg:text-6xl text-[#C9B99A] font-light">06</span>
+            <span className="text-brand-gray/40 text-xl md:text-2xl font-light">/</span>
+            <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-light tracking-wide text-brand-white uppercase">
+              COLLABORATE
+            </h2>
+          </div>
+          <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray/50 uppercase hidden md:inline">
+            GET IN TOUCH
+          </span>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start text-left">
           
