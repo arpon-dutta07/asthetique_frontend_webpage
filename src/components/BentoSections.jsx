@@ -40,23 +40,28 @@ const SERVICES_DATA = [
 const PROCESS_DATA = [
   {
     step: '01',
-    phase: 'CONCEPT & INCEPTION',
-    desc: 'Defining goals, analyzing spatial functionality, designing moodboards, and aligning on project scope.'
+    phase: 'DISCOVERY CALL',
+    desc: 'An initial consultation to discuss your vision, spatial requirements, budget, and project timeline.'
   },
   {
     step: '02',
-    phase: 'DESIGN DEVELOPMENT',
-    desc: 'Translating concepts into accurate floorplans, 3D photorealistic renderings, finish samples, and primary furniture curation.'
+    phase: 'SITE VISIT & BRIEF',
+    desc: 'In-person inspection of the site to capture accurate measurements and align on the design brief.'
   },
   {
     step: '03',
-    phase: 'TECHNICAL ARCHITECTURE',
-    desc: 'Developing full execution drawings, lighting directories, custom joinery details, plumbing guidelines, and coordinate documentation.'
+    phase: 'CONCEPT DEVELOPMENT',
+    desc: 'Translating concepts into moodboards, spatial layouts, materiality palettes, and preliminary 3D renderings.'
   },
   {
     step: '04',
-    phase: 'TURNKEY EXECUTION',
-    desc: 'Managing contractor schedules, fit-out inspections, bespoke installations, final styling, lighting calibration, and handovers.'
+    phase: 'PROCUREMENT & BUILD',
+    desc: 'Sourcing rare finishes, custom millwork curation, and managing build schedules with general contractors.'
+  },
+  {
+    step: '05',
+    phase: 'REVEAL & HANDOVER',
+    desc: 'Final styling, lighting calibration, and the ultimate turnkey walkthrough of your newly designed sanctuary.'
   }
 ]
 
@@ -374,62 +379,131 @@ function BentoSections({ onOpenDetail }) {
       </section>
 
 
-      {/* ----------------- PROCESS SECTION (Interactive Progress Timeline with Viewport Trigger) ----------------- */}
+      {/* ----------------- SECTION 2 — STATS BAR ----------------- */}
+      <section className="w-full border-t border-b border-black/10 dark:border-white/10 bg-[#F7F5F0] dark:bg-[#161616]/90 py-12 px-6 md:px-8 select-none transition-colors duration-500 rounded-[2rem] shadow-sm">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+          
+          {/* Stat 1 */}
+          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+              84+
+            </span>
+            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+              Projects completed
+            </span>
+          </div>
+
+          {/* Stat 2 */}
+          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+              14
+            </span>
+            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+              Countries worked in
+            </span>
+          </div>
+
+          {/* Stat 3 */}
+          <div className="flex flex-col items-center justify-center text-center md:border-r border-black/10 dark:border-white/10">
+            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+              97%
+            </span>
+            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+              Patrons return / refer
+            </span>
+          </div>
+
+          {/* Stat 4 */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className="font-sans font-bold tracking-tight text-brand-white text-[36px] md:text-[clamp(36px,5vw,58px)] leading-none mb-2">
+              8yr
+            </span>
+            <span className="text-[13px] text-brand-gray tracking-wider uppercase font-medium">
+              Studio practice
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ----------------- SECTION 3 — PROCESS TIMELINE ----------------- */}
       <section id="process" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-            02 // CREATIVE JOURNEY
-          </h2>
+          <div className="flex flex-col gap-1 text-left">
+            <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans">
+              03 // CREATIVE PROCESS
+            </h2>
+            <h3 className="text-xl md:text-2xl font-serif tracking-wide text-brand-white uppercase mt-1">
+              Our Journey
+            </h3>
+          </div>
           <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
-            STAGGERED TIMELINE
+            5-STAGE PIPELINE
           </span>
         </div>
 
-        {/* Scroll Linked Animation Wrapper */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={{
-            visible: {
-              transition: {
-                staggerChildren: 0.12
-              }
-            }
-          }}
-        >
-          {PROCESS_DATA.map((proc, index) => (
-            <motion.div 
-              key={proc.step} 
-              className="flex flex-col gap-6 relative group"
-              variants={scrollRevealVariants}
-            >
-              {/* Step counter and progress line */}
-              <div className="flex items-baseline justify-between border-b border-black/10 pb-4 relative overflow-hidden">
-                <span className="font-serif italic text-4xl text-brand-white group-hover:text-brand-gray transition-colors duration-300">
-                  {proc.step}
-                </span>
-                <span className="text-[9px] uppercase tracking-widest text-brand-gray/40 font-bold">
-                  STAGE {proc.step}
-                </span>
-                
-                {/* Horizontal sliding underline on hover */}
-                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
-              </div>
+        {/* Timeline Stagger Container */}
+        <div className="relative w-full py-6">
+          
+          {/* Horizontal connecting rule on desktop */}
+          <div className="absolute top-[31px] left-8 right-8 h-[1.5px] bg-[#C9B99A]/20 z-0 hidden lg:block" />
 
-              {/* Step content */}
-              <div className="flex flex-col gap-3 pt-2">
-                <h3 className="text-xs font-bold tracking-widest text-brand-white uppercase">
-                  {proc.phase}
-                </h3>
-                <p className="text-brand-gray/95 text-xs md:text-sm font-light leading-relaxed">
-                  {proc.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 text-left [perspective:1000px] relative z-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.12
+                }
+              }
+            }}
+          >
+            {PROCESS_DATA.map((proc, index) => (
+              <motion.div 
+                key={proc.step} 
+                className="flex flex-col gap-6 relative group"
+                variants={scrollRevealVariants}
+              >
+                {/* Connecting vertical line on mobile */}
+                <div className="absolute left-[11px] top-6 bottom-0 w-[1.5px] bg-[#C9B99A]/15 z-0 lg:hidden group-last:hidden" />
+
+                {/* Header Row: Dot & Step badge */}
+                <div className="flex items-center gap-4 relative z-10">
+                  {/* Circle Dot Marker */}
+                  <motion.div
+                    className="w-[24px] h-[24px] rounded-full border-2 border-[#C9B99A] bg-brand-black flex items-center justify-center transition-colors duration-500 z-10 cursor-pointer"
+                    whileHover={{ 
+                      scale: 1.35, 
+                      backgroundColor: "#C9B99A",
+                      borderColor: "#C9B99A"
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  >
+                    <div className="w-[6px] h-[6px] rounded-full bg-[#C9B99A] group-hover:bg-brand-black transition-colors duration-300" />
+                  </motion.div>
+
+                  {/* Step Code */}
+                  <span className="text-[11px] uppercase tracking-[0.15em] text-[#C9B99A] font-mono font-bold">
+                    STEP {proc.step}
+                  </span>
+                </div>
+
+                {/* Card Content */}
+                <div className="flex flex-col gap-3 pt-1 pl-10 lg:pl-0 text-left">
+                  <h4 className="text-base font-semibold tracking-wide text-brand-white uppercase font-sans">
+                    {proc.phase}
+                  </h4>
+                  <p className="text-brand-gray text-[13px] font-light leading-[1.65] max-w-sm">
+                    {proc.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
 
@@ -437,7 +511,7 @@ function BentoSections({ onOpenDetail }) {
       <section id="gallery" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-            03 // EDITORIAL ARCHIVE
+            04 // EDITORIAL ARCHIVE
           </h2>
           <span className="text-[10px] text-brand-gray/40 font-mono hidden md:inline">
             ACCORDION PORTFOLIO
@@ -538,7 +612,7 @@ function BentoSections({ onOpenDetail }) {
       {/* ----------------- TESTIMONIALS SECTION (Client Feedback Grid) ----------------- */}
       <section id="testimonials" className="flex flex-col gap-10 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left mb-2">
-          04 // CLIENT VOICES
+          05 // CLIENT VOICES
         </h2>
         <ClientFeedback />
       </section>
@@ -547,7 +621,7 @@ function BentoSections({ onOpenDetail }) {
       {/* ----------------- CONTACT & FOOTER SECTION (Split Underline Input Form) ----------------- */}
       <section id="contact" className="flex flex-col gap-12 w-full border-t border-black/5 pt-20">
         <h2 className="text-xs uppercase tracking-[0.25em] text-brand-gray/80 font-bold font-sans text-left">
-          05 // COLLABORATE
+          06 // COLLABORATE
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start text-left">
