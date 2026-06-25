@@ -236,11 +236,10 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
             isMobile ? 'w-8 h-8 rounded-lg' : 'w-12 h-12 rounded-xl'
           }`}>
             <svg 
-              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} currentColor`} 
-              fill="currentColor" 
+              className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} fill-current`} 
               viewBox="0 0 24 24"
             >
-              <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
+              <path d="M11.9 2L4 21h3.3l2.1-5.1h5.2l2.1 5.1h3.3L12.1 2h-.2zm-1.5 11.2L12 9.2l1.6 4h-3.2z" />
             </svg>
           </div>
         </div>

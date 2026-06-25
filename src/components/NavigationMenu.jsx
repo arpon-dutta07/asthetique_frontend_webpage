@@ -101,8 +101,8 @@ function NavigationMenu({ isOpen, onClose, isDarkTheme, toggleTheme }) {
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors duration-500 ${
                 isDarkTheme ? 'bg-[#22201C] border border-white/5 text-[#F2F0EB]' : 'bg-[#E5E2DA] border border-black/5 text-[#161513]'
               }`}>
-                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M11.9 2L4 21h3.3l2.1-5.1h5.2l2.1 5.1h3.3L12.1 2h-.2zm-1.5 11.2L12 9.2l1.6 4h-3.2z" />
                 </svg>
               </div>
               <span className={`font-bold tracking-widest text-xs uppercase transition-colors duration-500 ${
