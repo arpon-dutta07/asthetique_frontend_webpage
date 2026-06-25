@@ -163,6 +163,7 @@ function BentoSections({ onOpenDetail }) {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [expandedProject, setExpandedProject] = useState(2) // Default to index 2 (Japandi Haven)
   const [isMobile, setIsMobile] = useState(false)
+  const [focusedField, setFocusedField] = useState(null)
   const timelineRef = useRef(null)
   const isTimelineInView = useInView(timelineRef, { once: true, amount: 0.15 })
 
@@ -718,12 +719,21 @@ function BentoSections({ onOpenDetail }) {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start text-left">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch text-left">
           
-          {/* Left Details column */}
-          <div className="lg:col-span-5 flex flex-col gap-12 relative">
+          {/* Left Details column wrapped in premium bento card */}
+          <motion.div 
+            className="lg:col-span-5 flex flex-col justify-between gap-12 relative p-8 md:p-10 rounded-[2.5rem] bg-brand-white/[0.02] border border-brand-white/5 cursor-default"
+            whileHover={{
+              y: -8,
+              rotateX: 1,
+              rotateY: 2,
+              boxShadow: "0 25px 50px rgba(0,0,0,0.03)"
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 18 }}
+          >
             <div className="flex flex-col gap-5 z-10">
-              <h3 className="text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-brand-white leading-[1.1] font-serif">
+              <h3 className="text-4xl md:text-5xl lg:text-[3rem] font-medium tracking-tight text-brand-white leading-[1.1] font-serif uppercase">
                 Let's construct <br />something timeless
               </h3>
               <p className="text-brand-gray text-sm md:text-base font-light leading-relaxed max-w-sm">
@@ -732,16 +742,16 @@ function BentoSections({ onOpenDetail }) {
             </div>
 
             {/* Direct details info list */}
-            <div className="flex flex-col gap-6 border-t border-black/5 pt-8 z-10">
+            <div className="flex flex-col gap-6 border-t border-brand-white/5 pt-8 z-10">
               <div className="flex flex-col gap-1.5 group">
                 <span className="text-[9px] text-brand-gray/40 font-bold tracking-widest font-sans uppercase">studio email</span>
-                <a href="mailto:hello@aesthetique.com" className="text-sm font-semibold text-brand-white hover:text-brand-gray tracking-wide transition-all duration-300">
+                <a href="mailto:hello@aesthetique.com" className="text-sm font-semibold text-brand-white hover:text-[#C9B99A] tracking-wide transition-all duration-300">
                   hello@aesthetique.com
                 </a>
               </div>
               <div className="flex flex-col gap-1.5">
                 <span className="text-[9px] text-brand-gray/40 font-bold tracking-widest font-sans uppercase">office phone</span>
-                <a href="tel:+12125550192" className="text-sm font-semibold text-brand-white hover:text-brand-gray tracking-wide transition-all duration-300">
+                <a href="tel:+12125550192" className="text-sm font-semibold text-brand-white hover:text-[#C9B99A] tracking-wide transition-all duration-300">
                   +1 (212) 555-0192
                 </a>
               </div>
@@ -752,15 +762,24 @@ function BentoSections({ onOpenDetail }) {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right minimal form column */}
-          <div className="lg:col-span-7 w-full">
+          {/* Right Form column wrapped in premium bento card with 3D hover */}
+          <motion.div 
+            className="lg:col-span-7 w-full p-8 md:p-10 rounded-[2.5rem] bg-brand-white/[0.02] border border-brand-white/5 relative overflow-hidden cursor-default flex flex-col justify-center"
+            whileHover={{
+              y: -8,
+              rotateX: 1,
+              rotateY: -2,
+              boxShadow: "0 25px 50px rgba(0,0,0,0.05)"
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 18 }}
+          >
             {formSubmitted ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-24 text-center gap-5 bg-brand-dark/30 border border-black/5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(22,21,19,0.04)]"
+                className="flex flex-col items-center justify-center py-24 text-center gap-5 bg-brand-dark/30 border border-black/5 rounded-[2.5rem]"
               >
                 <div className="w-14 h-14 bg-brand-white/10 rounded-full flex items-center justify-center text-brand-white border border-brand-white/20">
                   <svg className="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -773,72 +792,101 @@ function BentoSections({ onOpenDetail }) {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-12 w-full">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
                 
-                {/* Minimal underline input 1 */}
-                <div className="flex flex-col gap-2 relative group">
-                  <label className="text-[10px] text-brand-gray/50 font-bold uppercase tracking-widest transition-colors duration-300 group-focus-within:text-brand-white">
-                    01 // What is your name?
-                  </label>
-                  <input 
-                    type="text" 
-                    name="name"
-                    required
-                    value={formState.name}
-                    onChange={handleInputChange}
-                    placeholder="Enter your name..." 
-                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent"
-                  />
-                  {/* Expanding accent underline */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                {/* Minimal input 1 */}
+                <div className="flex flex-col gap-2 relative group text-left">
+                  <div className={`relative rounded-2xl border transition-all duration-300 px-5 py-3.5 ${
+                    focusedField === 'name' 
+                      ? 'border-[#C9B99A] bg-brand-white/[0.04] shadow-[0_0_12px_rgba(201,185,154,0.15)]' 
+                      : 'border-brand-white/10 bg-brand-white/[0.02] hover:border-brand-white/20'
+                  }`}>
+                    <label className={`absolute left-5 transition-all duration-300 pointer-events-none uppercase font-mono tracking-wider ${
+                      focusedField === 'name' || formState.name 
+                        ? 'top-2 text-[9px] text-[#C9B99A] font-bold' 
+                        : 'top-1/2 -translate-y-1/2 text-xs text-brand-gray/60'
+                    }`}>
+                      01 // What is your name?
+                    </label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      required
+                      value={formState.name}
+                      onFocus={() => setFocusedField('name')}
+                      onBlur={() => setFocusedField(null)}
+                      onChange={handleInputChange}
+                      className="w-full bg-transparent text-sm text-brand-white outline-none pt-4 pb-0 font-sans"
+                    />
+                  </div>
                 </div>
 
-                {/* Minimal underline input 2 */}
-                <div className="flex flex-col gap-2 relative group">
-                  <label className="text-[10px] text-brand-gray/50 font-bold uppercase tracking-widest transition-colors duration-300 group-focus-within:text-brand-white">
-                    02 // What is your email address?
-                  </label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    required
-                    value={formState.email}
-                    onChange={handleInputChange}
-                    placeholder="Enter your email..." 
-                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                {/* Minimal input 2 */}
+                <div className="flex flex-col gap-2 relative group text-left">
+                  <div className={`relative rounded-2xl border transition-all duration-300 px-5 py-3.5 ${
+                    focusedField === 'email' 
+                      ? 'border-[#C9B99A] bg-brand-white/[0.04] shadow-[0_0_12px_rgba(201,185,154,0.15)]' 
+                      : 'border-brand-white/10 bg-brand-white/[0.02] hover:border-brand-white/20'
+                  }`}>
+                    <label className={`absolute left-5 transition-all duration-300 pointer-events-none uppercase font-mono tracking-wider ${
+                      focusedField === 'email' || formState.email 
+                        ? 'top-2 text-[9px] text-[#C9B99A] font-bold' 
+                        : 'top-1/2 -translate-y-1/2 text-xs text-brand-gray/60'
+                    }`}>
+                      02 // What is your email address?
+                    </label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      value={formState.email}
+                      onFocus={() => setFocusedField('email')}
+                      onBlur={() => setFocusedField(null)}
+                      onChange={handleInputChange}
+                      className="w-full bg-transparent text-sm text-brand-white outline-none pt-4 pb-0 font-sans"
+                    />
+                  </div>
                 </div>
 
-                {/* Minimal underline input 3 */}
-                <div className="flex flex-col gap-2 relative group">
-                  <label className="text-[10px] text-brand-gray/50 font-bold uppercase tracking-widest transition-colors duration-300 group-focus-within:text-brand-white">
-                    03 // Tell us about your project.
-                  </label>
-                  <textarea 
-                    name="message"
-                    required
-                    value={formState.message}
-                    onChange={handleInputChange}
-                    rows="2"
-                    placeholder="Briefly describe your space, goals, or schedule..." 
-                    className="w-full bg-transparent border-b border-black/10 py-3 text-sm text-brand-white placeholder-brand-gray/45 outline-none transition-all duration-300 focus:placeholder-transparent resize-none"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#161513] scale-x-0 origin-center transition-transform duration-500 ease-out group-focus-within:scale-x-100" />
+                {/* Minimal input 3 */}
+                <div className="flex flex-col gap-2 relative group text-left">
+                  <div className={`relative rounded-2xl border transition-all duration-300 px-5 py-3.5 ${
+                    focusedField === 'message' 
+                      ? 'border-[#C9B99A] bg-brand-white/[0.04] shadow-[0_0_12px_rgba(201,185,154,0.15)]' 
+                      : 'border-brand-white/10 bg-brand-white/[0.02] hover:border-brand-white/20'
+                  }`}>
+                    <label className={`absolute left-5 transition-all duration-300 pointer-events-none uppercase font-mono tracking-wider ${
+                      focusedField === 'message' || formState.message 
+                        ? 'top-2 text-[9px] text-[#C9B99A] font-bold' 
+                        : 'top-5 text-xs text-brand-gray/60'
+                    }`}>
+                      03 // Tell us about your project.
+                    </label>
+                    <textarea 
+                      name="message"
+                      required
+                      value={formState.message}
+                      onFocus={() => setFocusedField('message')}
+                      onBlur={() => setFocusedField(null)}
+                      onChange={handleInputChange}
+                      rows="3"
+                      className="w-full bg-transparent text-sm text-brand-white outline-none pt-4 pb-0 font-sans resize-none"
+                    />
+                  </div>
                 </div>
 
                 {/* Submit button with sliding mask hover effect */}
-                <div className="pt-4">
+                <div className="pt-2 text-left">
                   <button 
                     type="submit"
-                    className="relative overflow-hidden inline-flex items-center justify-center px-10 py-4 rounded-full border border-[#161513] bg-[#161513] text-[#F2F0EB] text-xs font-semibold tracking-widest transition-all duration-300 hover:bg-[#F2F0EB] hover:text-[#161513] uppercase group"
+                    className="relative overflow-hidden inline-flex items-center justify-center px-10 py-4 rounded-full border border-[#161513] dark:border-[#F2F0EB] bg-[#161513] dark:bg-[#F2F0EB] text-[#F2F0EB] dark:text-[#161513] text-xs font-semibold tracking-widest transition-all duration-300 hover:bg-transparent dark:hover:bg-transparent hover:text-[#161513] dark:hover:text-[#F2F0EB] uppercase group cursor-pointer"
                   >
                     Submit Details
                   </button>
                 </div>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
 
       </section>
