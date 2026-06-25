@@ -38,6 +38,47 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
     const video = videoRef.current
     if (!video) return
 
+    let isInteracted = false
+
+    const handleUserInteraction = () => {
+      if (isInteracted) return
+      const scrollPos = window.scrollY
+      const heroHeight = containerRef.current ? containerRef.current.offsetHeight : 450
+
+      if (scrollPos <= heroHeight) {
+        // Set to unmuted
+        video.muted = false
+        video.volume = 1.0
+        
+        video.play()
+          .then(() => {
+            // Playback with sound succeeded!
+            soundAllowedRef.current = true
+            setIsMuted(false)
+            isInteracted = true
+            cleanupListeners()
+          })
+          .catch((err) => {
+            // Unmute failed (blocked by autoplay policy) -> fallback to muted to prevent pause
+            console.log("Unmute attempt blocked by browser:", err)
+            video.muted = true
+            setIsMuted(true)
+            video.play().catch(e => console.log("Muted autoplay fallback failed:", e))
+          })
+      } else {
+        soundAllowedRef.current = true
+        isInteracted = true
+        cleanupListeners()
+      }
+    }
+
+    const cleanupListeners = () => {
+      window.removeEventListener('click', handleUserInteraction)
+      window.removeEventListener('touchend', handleUserInteraction)
+      window.removeEventListener('mousedown', handleUserInteraction)
+      window.removeEventListener('keydown', handleUserInteraction)
+    }
+
     // Attempt unmuted play first
     video.muted = false
     video.volume = 1.0
@@ -49,32 +90,19 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
         setIsMuted(false)
       })
       .catch(() => {
-        // Unmuted play blocked (autoplay policy) -> play muted
+        // Unmuted play blocked -> play muted and wait for user interaction
         video.muted = true
         setIsMuted(true)
-        video.play().catch(err => console.log("Muted autoplay failed:", err))
+        video.play()
+          .then(() => {
+            // Listen for interactions to unmute
+            window.addEventListener('click', handleUserInteraction)
+            window.addEventListener('touchend', handleUserInteraction)
+            window.addEventListener('mousedown', handleUserInteraction)
+            window.addEventListener('keydown', handleUserInteraction)
+          })
+          .catch(err => console.log("Muted autoplay failed:", err))
       })
-
-    const handleUserInteraction = () => {
-      if (!soundAllowedRef.current) {
-        soundAllowedRef.current = true
-        const scrollPos = window.scrollY
-        const heroHeight = containerRef.current ? containerRef.current.offsetHeight : 450
-        if (scrollPos <= heroHeight) {
-          video.muted = false
-          setIsMuted(false)
-          video.volume = 1.0
-          if (video.paused) {
-            video.play().catch(err => console.log("Play on interaction failed:", err))
-          }
-        }
-      }
-      window.removeEventListener('click', handleUserInteraction)
-      window.removeEventListener('touchstart', handleUserInteraction)
-    }
-
-    window.addEventListener('click', handleUserInteraction)
-    window.addEventListener('touchstart', handleUserInteraction)
 
     const handleScroll = () => {
       const scrollPos = window.scrollY
@@ -90,6 +118,9 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
           video.muted = false
           setIsMuted(false)
           video.volume = 1.0
+          if (video.paused) {
+            video.play().catch(err => console.log("Play on scroll back failed:", err))
+          }
         }
       }
     }
@@ -97,8 +128,7 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
     window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('click', handleUserInteraction)
-      window.removeEventListener('touchstart', handleUserInteraction)
+      cleanupListeners()
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
