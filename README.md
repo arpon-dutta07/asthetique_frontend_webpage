@@ -7,10 +7,12 @@ AESTHETIQUE is a premium, high-end single-page portfolio landing page crafted fo
 ## 📸 Layout Showcase
 
 ### Desktop View
-![AESTHETIQUE Desktop View](./public/screenshot-desktop.png)
+<img width="1536" height="701" alt="image" src="https://github.com/user-attachments/assets/f2a002e0-03a6-493a-bc1f-6a3b6a57e4a4" />
+
 
 ### Mobile View
-![AESTHETIQUE Mobile View](./public/screenshot-mobile.png)
+<img width="484" height="721" alt="image" src="https://github.com/user-attachments/assets/3a0194e1-430b-411e-b649-a9e58c32fc87" />
+
 
 ---
 
