@@ -51,17 +51,48 @@ function Footer() {
 
   const brandName = "AESTHETIQUE"
 
+  // Stagger reveal animation variants similar to testimonials section
+  const revealVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      filter: "blur(8px)"
+    },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        delay: i * 0.12,
+        duration: 0.5,
+        type: "spring",
+        stiffness: 140,
+        damping: 18
+      }
+    })
+  }
+
   return (
     <footer className="footer-reveal-container w-full text-brand-white bg-brand-black flex flex-col justify-between overflow-hidden p-4 lg:p-6 lg:pb-3 max-w-none">
       
-      {/* Bento Cards Container (No raw table lines, clean floating cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
+      {/* Bento Cards Container with 3D perspective */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 [perspective:1200px]">
         
         {/* Cell 1: Newsletter Subscribe */}
         <motion.div 
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="lg:col-span-6 min-h-[250px] lg:min-h-[210px] bg-brand-dark/30 dark:bg-brand-dark/20 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 hover:shadow-xl group"
+          custom={0}
+          variants={revealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.05 }}
+          whileHover={{ 
+            y: -8, 
+            scale: 1.018, 
+            rotateX: -2, 
+            rotateY: 1,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.1)" 
+          }}
+          className="lg:col-span-6 min-h-[250px] lg:min-h-[210px] bg-white/80 dark:bg-[#1A1A1A]/35 border border-black/20 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-colors duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 group"
         >
           <div className="flex flex-col gap-1 relative z-10">
             <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray font-semibold">
@@ -108,9 +139,19 @@ function Footer() {
 
         {/* Cell 2: Quick Links */}
         <motion.div 
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="lg:col-span-3 min-h-[250px] lg:min-h-[210px] bg-brand-dark/30 dark:bg-brand-dark/20 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 hover:shadow-xl group"
+          custom={1}
+          variants={revealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.05 }}
+          whileHover={{ 
+            y: -8, 
+            scale: 1.018, 
+            rotateX: -2, 
+            rotateY: -1,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.1)" 
+          }}
+          className="lg:col-span-3 min-h-[250px] lg:min-h-[210px] bg-white/80 dark:bg-[#1A1A1A]/35 border border-black/20 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-colors duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 group"
         >
           <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray font-semibold">
             02 // NAVIGATION
@@ -121,7 +162,7 @@ function Footer() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="inline-block text-xs font-semibold tracking-widest text-brand-gray hover:text-brand-white dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1"
+                  className="inline-block text-xs font-semibold tracking-widest text-brand-white/70 hover:text-brand-white dark:text-brand-white/70 dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1"
                 >
                   {link.label}
                 </a>
@@ -132,9 +173,19 @@ function Footer() {
 
         {/* Cell 3: Social Links */}
         <motion.div 
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="lg:col-span-3 min-h-[250px] lg:min-h-[210px] bg-brand-dark/30 dark:bg-brand-dark/20 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 hover:shadow-xl group"
+          custom={2}
+          variants={revealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.05 }}
+          whileHover={{ 
+            y: -8, 
+            scale: 1.018, 
+            rotateX: -2, 
+            rotateY: -1,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.1)" 
+          }}
+          className="lg:col-span-3 min-h-[250px] lg:min-h-[210px] bg-white/80 dark:bg-[#1A1A1A]/35 border border-black/20 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-colors duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 group"
         >
           <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray font-semibold">
             03 // DIRECT NETWORK
@@ -147,7 +198,7 @@ function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block text-xs font-semibold tracking-widest text-brand-gray hover:text-brand-white dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1"
+                  className="inline-block text-xs font-semibold tracking-widest text-brand-white/70 hover:text-brand-white dark:text-brand-white/70 dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1"
                 >
                   {link.label}
                 </a>
@@ -158,13 +209,23 @@ function Footer() {
 
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mt-4 [perspective:1200px]">
         
         {/* Cell 4: Live Timezones Clocks */}
         <motion.div 
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="lg:col-span-6 min-h-[200px] lg:min-h-[160px] bg-brand-dark/30 dark:bg-brand-dark/20 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 hover:shadow-xl group"
+          custom={3}
+          variants={revealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.05 }}
+          whileHover={{ 
+            y: -8, 
+            scale: 1.015, 
+            rotateX: -1, 
+            rotateY: 1,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.1)" 
+          }}
+          className="lg:col-span-6 min-h-[200px] lg:min-h-[160px] bg-white/80 dark:bg-[#1A1A1A]/35 border border-black/20 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-colors duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 group"
         >
           <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray font-semibold">
             04 // STUDIO TIMEZONES
@@ -208,9 +269,19 @@ function Footer() {
 
         {/* Cell 5: Studio Address & Direct Call */}
         <motion.div 
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="lg:col-span-6 min-h-[200px] lg:min-h-[160px] bg-brand-dark/30 dark:bg-brand-dark/20 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 hover:shadow-xl group"
+          custom={4}
+          variants={revealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.05 }}
+          whileHover={{ 
+            y: -8, 
+            scale: 1.015, 
+            rotateX: -1, 
+            rotateY: -1,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.1)" 
+          }}
+          className="lg:col-span-6 min-h-[200px] lg:min-h-[160px] bg-white/80 dark:bg-[#1A1A1A]/35 border border-black/20 dark:border-white/10 rounded-[2rem] p-8 lg:p-6 xl:p-8 flex flex-col justify-between transition-colors duration-500 relative overflow-hidden text-left cursor-default hover:border-brand-white/40 dark:hover:border-brand-white/40 group"
         >
           <span className="text-[10px] font-mono tracking-[0.25em] text-brand-gray font-semibold">
             05 // DIRECTORY
@@ -226,7 +297,7 @@ function Footer() {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-[9px] font-mono text-brand-gray/60 uppercase tracking-widest">TELEPHONE</span>
-              <a href="tel:+12125550192" className="text-xs font-semibold tracking-widest hover:text-brand-white dark:hover:text-brand-white transition-colors duration-300">
+              <a href="tel:+12125550192" className="text-xs font-semibold tracking-widest text-brand-white/80 hover:text-brand-white dark:hover:text-brand-white transition-colors duration-300">
                 +1 (212) 555-0192
               </a>
             </div>
@@ -238,17 +309,17 @@ function Footer() {
       {/* Row 3: Huge Brand Signature & Legal Footnotes */}
       <div className="flex flex-col items-center justify-between p-8 lg:p-3 xl:p-5 gap-4 lg:gap-3 xl:gap-5 bg-transparent text-center overflow-hidden">
         
-        {/* Huge Animated Letter-Bounce Brand Text */}
+        {/* Huge Animated Letter-Bounce Brand Text (No Copyright symbol) */}
         <div className="w-full flex items-center justify-center py-2 select-none relative overflow-hidden">
           <h2 className="font-serif font-black tracking-tighter uppercase text-[2.5rem] sm:text-[4.75rem] md:text-[6.5rem] lg:text-[7.8rem] xl:text-[9.2rem] leading-none flex gap-1 justify-center w-full">
             {brandName.split("").map((char, index) => (
               <motion.span
                 key={index}
-                className="inline-block text-transparent [-webkit-text-stroke:1.3px_rgba(22,21,19,0.18)] dark:[-webkit-text-stroke:1px_rgba(242,240,235,0.18)] cursor-pointer select-none"
+                className="inline-block text-transparent [-webkit-text-stroke:1.5px_rgba(22,21,19,0.72)] dark:[-webkit-text-stroke:1.2px_rgba(242,240,235,0.52)] cursor-pointer select-none"
                 whileHover={{
                   color: "var(--color-brand-white)",
-                  scale: 1.1,
-                  y: -10,
+                  scale: 1.15,
+                  y: -14,
                   WebkitTextStroke: "1px var(--color-brand-white)",
                   transition: { type: "spring", stiffness: 450, damping: 9 }
                 }}
