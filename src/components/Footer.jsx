@@ -330,10 +330,10 @@ function Footer() {
       </div>
 
       {/* Row 3: Huge Brand Signature & Legal Footnotes */}
-      <div className="flex flex-col items-center justify-between p-8 lg:p-3 xl:p-5 gap-4 lg:gap-3 xl:gap-5 bg-transparent text-center overflow-hidden">
+      <div className="flex flex-col items-center justify-between p-8 lg:p-3 xl:p-5 gap-4 lg:gap-3 xl:gap-5 bg-transparent text-center overflow-visible">
         
         {/* Huge Animated Letter-Bounce Brand Text (No Copyright symbol) */}
-        <div className="w-full flex items-center justify-center py-2 select-none relative overflow-hidden">
+        <div className="w-full flex items-center justify-center py-2 select-none relative overflow-visible">
           <h2 className="font-serif font-black tracking-tighter uppercase text-[2.5rem] sm:text-[4.75rem] md:text-[6.5rem] lg:text-[7.8rem] xl:text-[9.2rem] leading-none flex gap-1 justify-center w-full">
             {brandName.split("").map((char, index) => (
               <motion.span

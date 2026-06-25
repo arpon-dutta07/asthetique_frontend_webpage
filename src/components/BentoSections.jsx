@@ -515,13 +515,7 @@ function BentoSections({ onOpenDetail }) {
         {/* Timeline Stagger Container */}
         <div ref={timelineRef} className="relative w-full py-6">
           
-          {/* Horizontal connecting line on desktop (draws itself when in view!) */}
-          <motion.div 
-            className="absolute top-[58px] left-12 right-12 h-[2px] bg-[#C9B99A]/30 origin-left z-0 hidden lg:block"
-            initial={{ scaleX: 0 }}
-            animate={isTimelineInView ? { scaleX: 1 } : { scaleX: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-          />
+
 
           <motion.div 
             className="grid grid-cols-1 lg:grid-cols-5 gap-8 text-left [perspective:1200px] relative z-10"

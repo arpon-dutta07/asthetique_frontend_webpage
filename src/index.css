@@ -19,6 +19,7 @@ html {
   background-color: var(--color-brand-black);
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -27,7 +28,7 @@ body {
   background-color: var(--color-brand-black);
   color: var(--color-brand-white);
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow: visible;
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -67,33 +68,46 @@ body {
   animation: spin-slow 12s linear infinite;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-brand-black);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-brand-gray);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-white);
+/* Custom scrollbar (Desktop only to prevent persistent grey tracks on mobile screens) */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-brand-black);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-gray);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-white);
+  }
 }
 
-/* Footer Reveal Parallax Effect (Desktop and Tall Screens only) */
+/* Footer Reveal Parallax Effect (Desktop and Tall Screens only, reset for mobile) */
+.footer-reveal-container {
+  position: relative !important;
+  height: auto !important;
+  z-index: 1;
+}
+.main-reveal-mask {
+  margin-bottom: 0 !important;
+  z-index: 10;
+  position: relative;
+}
+
 @media (min-width: 1024px) and (min-height: 700px) {
   .footer-reveal-container {
-    position: fixed;
+    position: fixed !important;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 660px;
+    height: 660px !important;
     z-index: 0;
   }
   .main-reveal-mask {
-    margin-bottom: 660px;
+    margin-bottom: 660px !important;
     z-index: 10;
     position: relative;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
