@@ -33,12 +33,21 @@ function Footer() {
     }
   }
 
+  const handleScrollTo = (e, href) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const footerLinks = {
     pages: [
       { label: 'STUDIO', href: '#hero' },
       { label: 'SERVICES', href: '#services' },
-      { label: 'PROJECTS', href: '#gallery' },
       { label: 'JOURNEY', href: '#process' },
+      { label: 'PROJECTS', href: '#gallery' },
       { label: 'CONTACT', href: '#contact' }
     ],
     socials: [
@@ -185,7 +194,8 @@ function Footer() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="inline-block text-xs font-semibold tracking-widest text-brand-white/70 hover:text-brand-white dark:text-brand-white/70 dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1"
+                  onClick={(e) => handleScrollTo(e, link.href)}
+                  className="inline-block text-xs font-semibold tracking-widest text-brand-white/70 hover:text-brand-white dark:text-brand-white/70 dark:hover:text-brand-white transition-all duration-300 hover:translate-x-1 cursor-pointer"
                 >
                   {link.label}
                 </a>

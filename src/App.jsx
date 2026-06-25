@@ -185,7 +185,7 @@ function App() {
       />
 
       {/* Full-Screen Page Container */}
-      <main className="main-reveal-mask relative z-10 w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col items-center justify-start bg-brand-black transition-colors duration-500">
+      <main id="hero" className="main-reveal-mask relative z-10 w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col items-center justify-start bg-brand-black transition-colors duration-500">
         {/* Responsive Bento Grid */}
         <div className="w-full max-w-none flex flex-col gap-6">
           <HeroBento 
