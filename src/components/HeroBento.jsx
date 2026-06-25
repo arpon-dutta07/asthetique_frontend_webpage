@@ -9,6 +9,8 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
   const containerRef = useRef(null)
   const videoRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const [isMuted, setIsMuted] = useState(false)
+  const soundAllowedRef = useRef(false)
 
   // Parallax scroll effect for Hero image (subtle ~25px drift)
   const { scrollY } = useScroll()
@@ -31,38 +33,42 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
 
   const { width, height } = dimensions
 
-  // Autoplay with full audio (falling back to muted autoplay if blocked, unmuting on click, pausing on scroll)
+  // Autoplay with full audio (unmuting on first interaction/reload, muting on scroll, keeping video running)
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    video.volume = 1.0
+    // Attempt unmuted play first
     video.muted = false
+    video.volume = 1.0
 
-    let hasInteracted = false
+    video.play()
+      .then(() => {
+        // Unmuted play succeeded (browser allowed it or reload/refresh permitted)
+        soundAllowedRef.current = true
+        setIsMuted(false)
+      })
+      .catch(() => {
+        // Unmuted play blocked (autoplay policy) -> play muted
+        video.muted = true
+        setIsMuted(true)
+        video.play().catch(err => console.log("Muted autoplay failed:", err))
+      })
 
-    const attemptPlay = () => {
-      const playPromise = video.play()
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Fallback to muted autoplay
-          video.muted = true
-          video.play().catch(err => console.log("Video play failed:", err))
-        })
-      }
-    }
-
-    attemptPlay()
-
-    // Unmute on first user interaction on the page
     const handleUserInteraction = () => {
-      hasInteracted = true
-      if (video.muted && window.scrollY <= 450) {
-        video.muted = false
-        video.volume = 1.0
-        video.play().catch(err => console.log("Video play failed on interaction:", err))
+      if (!soundAllowedRef.current) {
+        soundAllowedRef.current = true
+        const scrollPos = window.scrollY
+        const heroHeight = containerRef.current ? containerRef.current.offsetHeight : 450
+        if (scrollPos <= heroHeight) {
+          video.muted = false
+          setIsMuted(false)
+          video.volume = 1.0
+          if (video.paused) {
+            video.play().catch(err => console.log("Play on interaction failed:", err))
+          }
+        }
       }
-      // Remove event listeners
       window.removeEventListener('click', handleUserInteraction)
       window.removeEventListener('touchstart', handleUserInteraction)
     }
@@ -70,26 +76,20 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
     window.addEventListener('click', handleUserInteraction)
     window.addEventListener('touchstart', handleUserInteraction)
 
-    // Pause audio/video on scroll down from Hero
     const handleScroll = () => {
       const scrollPos = window.scrollY
-      if (scrollPos > 450) {
-        // Scroll down: mute and pause
-        if (!video.muted) {
-          video.muted = true
-        }
-        if (!video.paused) {
-          video.pause()
-        }
+      const heroHeight = containerRef.current ? containerRef.current.offsetHeight : 450
+
+      if (scrollPos > heroHeight) {
+        // Just crossed hero section: mute only, do NOT pause
+        video.muted = true
+        setIsMuted(true)
       } else {
-        // Scroll back to Hero: resume play
-        if (video.paused) {
-          // Restore unmuted if interacted
-          if (hasInteracted) {
-            video.muted = false
-            video.volume = 1.0
-          }
-          video.play().catch(err => console.log("Video resume failed:", err))
+        // Back in hero section: unmute if sound is allowed
+        if (soundAllowedRef.current) {
+          video.muted = false
+          setIsMuted(false)
+          video.volume = 1.0
         }
       }
     }
@@ -290,7 +290,7 @@ function HeroBento({ onOpenMenu, isDarkTheme, toggleTheme, onOpenDetail }) {
               autoPlay
               loop
               playsInline
-              muted
+              muted={isMuted}
               className="absolute inset-0 w-full h-full object-cover origin-center scale-105"
               style={{ y: heroImageY }}
             >
