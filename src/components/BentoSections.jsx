@@ -673,23 +673,6 @@ function BentoSections({ onOpenDetail }) {
           </div>
         </div>
 
-        {/* Footer bottom signature row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-black/5 pt-12 mt-16 text-center sm:text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#161513] border border-black/5 rounded-xl flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-[#F2F0EB]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3L5 13H12L10 21L20 11H13L19 3Z" />
-              </svg>
-            </div>
-            <span className="text-brand-white font-bold tracking-widest text-xs uppercase">
-              AESTHETIQUE
-            </span>
-          </div>
-          
-          <p className="text-[9px] text-brand-gray/40 font-light tracking-widest uppercase">
-            © {new Date().getFullYear()} AESTHETIQUE STUDIO. ALL RIGHTS RESERVED. / PRIVACY POLICY / TERMS OF USE
-          </p>
-        </div>
       </section>
 
     </div>

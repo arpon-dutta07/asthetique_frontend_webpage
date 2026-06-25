@@ -4,6 +4,7 @@ import HeroBento from './components/HeroBento'
 import BentoSections from './components/BentoSections'
 import NavigationMenu from './components/NavigationMenu'
 import DetailOverlay from './components/DetailOverlay'
+import Footer from './components/Footer'
 
 const DETAIL_DATA = {
   'casa-noir': {
@@ -184,7 +185,7 @@ function App() {
       />
 
       {/* Full-Screen Page Container */}
-      <main className="relative z-10 w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col items-center justify-start">
+      <main className="main-reveal-mask relative z-10 w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col items-center justify-start bg-brand-black transition-colors duration-500 rounded-b-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
         {/* Responsive Bento Grid */}
         <div className="w-full max-w-none flex flex-col gap-6">
           <HeroBento 
@@ -196,6 +197,8 @@ function App() {
           <BentoSections onOpenDetail={handleOpenDetail} />
         </div>
       </main>
+
+      <Footer />
 
       <NavigationMenu 
         isOpen={isMenuOpen} 
